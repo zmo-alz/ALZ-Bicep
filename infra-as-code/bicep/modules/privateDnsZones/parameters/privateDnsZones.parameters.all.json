@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "parLocation": {
-      "value": "eastus"
+      "value": "norwayeast"
     },
     "parPrivateDnsZones": {
       "value": [
@@ -23,14 +23,14 @@
         "privatelink.cassandra.cosmos.azure.com",
         "privatelink.gremlin.cosmos.azure.com",
         "privatelink.table.cosmos.azure.com",
-        "privatelink.xxxxxx.batch.azure.com", // Replace xxxxxx with target region (i.e. eastus)
+        "privatelink.xxxxxx.batch.azure.com", // Replace xxxxxx with target region (i.e. norwayeast)
         "privatelink.postgres.database.azure.com",
         "privatelink.mysql.database.azure.com",
         "privatelink.mariadb.database.azure.com",
         "privatelink.vaultcore.azure.net",
         "privatelink.managedhsm.azure.net",
-        "privatelink.xxxxxx.azmk8s.io", // Replace xxxxxx with target region (i.e. eastus)
-        "privatelink.xxxxxx.backup.windowsazure.com", // Replace xxxxxx with target region geo code (i.e. for eastus, the geo code is eus)
+        "privatelink.xxxxxx.azmk8s.io", // Replace xxxxxx with target region (i.e. norwayeast)
+        "privatelink.xxxxxx.backup.windowsazure.com", // Replace xxxxxx with target region geo code (i.e. for norwayeast, the geo code is eus)
         "privatelink.siterecovery.windowsazure.com",
         "privatelink.servicebus.windows.net",
         "privatelink.azure-devices.net",

@@ -124,7 +124,7 @@ In this example, the management groups are created at the `Tenant Root Group` th
 
 dateYMD=$(date +%Y%m%dT%H%M%S%NZ)
 NAME="alz-MGDeployment-${dateYMD}"
-LOCATION="eastus"
+LOCATION="norwayeast"
 TEMPLATEFILE="infra-as-code/bicep/modules/managementGroups/managementGroups.bicep"
 PARAMETERS="@infra-as-code/bicep/modules/managementGroups/parameters/managementGroups.parameters.all.json"
 
@@ -150,7 +150,7 @@ az deployment tenant create --name ${NAME:0:63} --location $LOCATION --template-
 
 $inputObject = @{
   DeploymentName        = 'alz-MGDeployment-{0}' -f (-join (Get-Date -Format 'yyyyMMddTHHMMssffffZ')[0..63])
-  Location              = 'EastUS'
+  Location              = 'norwayeast'
   TemplateFile          = "infra-as-code/bicep/modules/managementGroups/managementGroups.bicep"
   TemplateParameterFile = 'infra-as-code/bicep/modules/managementGroups/parameters/managementGroups.parameters.all.json'
 }

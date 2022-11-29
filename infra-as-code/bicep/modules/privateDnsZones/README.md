@@ -13,10 +13,10 @@ The module requires the following inputs:
 
  | Parameter                 | Type   | Default                                                                                                          | Description                                                                                                                                    | Requirement                              | Example                                                                                                                                                |
  | ------------------------- | ------ | ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
- | parLocation               | string | `resourceGroup().location`                                                                                       | The Azure Region to deploy the resources into                                                                                                  | None                                     | `eastus`                                                                                                                                               |
+ | parLocation               | string | `resourceGroup().location`                                                                                       | The Azure Region to deploy the resources into                                                                                                  | None                                     | `norwayeast`                                                                                                                                               |
  | parPrivateDnsZones        | array  | See example parameters file [`privateDnsZones.parameters.all.json`](parameters/privateDnsZones.parameters.all.json) | Array of DNS Zones to provision in Hub Virtual Network. Default: All known Azure Private DNS Zones - See [DNS Zones](#dns-zones) for more info | None                                     | See Default                                                                                                                                            |
  | parTags                   | object | Empty object `{}`                                                                                                   | List of tags (Key Value Pairs) to be applied to resources                                                                                      | None                                     | environment: 'development'                                                                                                                             |
- | parVirtualNetworkIdToLink | string | Empty String                                                                                                     | Resource ID of VNet for Private DNS Zone VNet Links                                                                                            | Valid Resource ID of the Virtual Network | /subscriptions/[your platform connectivity subscription ID]/resourceGroups/Hub_PrivateDNS_POC/providers/Microsoft.Network/virtualNetworks/alz-hub-eastus |
+ | parVirtualNetworkIdToLink | string | Empty String                                                                                                     | Resource ID of VNet for Private DNS Zone VNet Links                                                                                            | Valid Resource ID of the Virtual Network | /subscriptions/[your platform connectivity subscription ID]/resourceGroups/Hub_PrivateDNS_POC/providers/Microsoft.Network/virtualNetworks/alz-hub-norwayeast |
  | parTelemetryOptOut        | bool   | false                                                                                                            | Set Parameter to true to Opt-out of deployment telemetry                                                                                       | None                                     | false                                                                                                                                                  |
 
 ## DNS Zones
@@ -28,7 +28,7 @@ The following DNS Zones are region specific and will be deployed with the provid
 - `privatelink.xxxxxx.batch.azure.com`
 - `privatelink.xxxxxx.azmk8s.io`
 
-**Note:** The region specific zones are included in the parameters files with the region set as `xxxxxx`. For these zones to deploy properly, replace `xxxxxx` with the target region. For example: `privatelink.xxxxxx.azmk8s.io` would become `privatelink.eastus.azmk8s.io` for a deployment targeting the East US region.
+**Note:** The region specific zones are included in the parameters files with the region set as `xxxxxx`. For these zones to deploy properly, replace `xxxxxx` with the target region. For example: `privatelink.xxxxxx.azmk8s.io` would become `privatelink.norwayeast.azmk8s.io` for a deployment targeting the East US region.
 
 ### Geo Code Zones
 
@@ -57,7 +57,7 @@ The module will generate the following outputs:
 
 | Output             | Type  | Example                                                                                                                                                                                                  |
 | ------------------ | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| outPrivateDnsZones | array | `["name": "privatelink.azurecr.io", "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/net-lz-spk-eastus-rg/providers/Microsoft.Network/privateDnsZones/privatelink.azurecr.io"]` |
+| outPrivateDnsZones | array | `["name": "privatelink.azurecr.io", "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/net-lz-spk-norwayeast-rg/providers/Microsoft.Network/privateDnsZones/privatelink.azurecr.io"]` |
 
 ## Deployment
 > **Note:** `bicepconfig.json` file is included in the module directory.  This file allows us to override Bicep Linters.  Currently there are two URLs which were removed because of linter warnings.  URLs removed are the following: database.windows.net and core.windows.net
@@ -92,7 +92,7 @@ RESOURCEGROUP="rg-$TopLevelMGPrefix-private-dns-001"
 TEMPLATEFILE="infra-as-code/bicep/modules/privateDnsZones/privateDnsZones.bicep"
 PARAMETERS="@infra-as-code/bicep/modules/privateDnsZones/parameters/privateDnsZones.parameters.all.json"
 
-az group create --location eastus \
+az group create --location norwayeast \
    --name $RESOURCEGROUP
 
 az deployment group create --name ${NAME:0:63} --resource-group $RESOURCEGROUP --parameters $PARAMETERS --template-file $TEMPLATEFILE
@@ -133,7 +133,7 @@ $TopLevelMGPrefix = "alz"
 
 New-AzResourceGroup `
   -Name $inputObject.ResourceGroupName `
-  -Location 'eastus'
+  -Location 'norwayeast'
 
 $inputObject = @{
   DeploymentName        = 'alz-PrivateDnsZonesDeploy-{0}' -f (-join (Get-Date -Format 'yyyyMMddTHHMMssffffZ')[0..63])
