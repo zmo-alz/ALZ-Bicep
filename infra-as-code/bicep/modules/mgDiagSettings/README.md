@@ -30,7 +30,7 @@ The inputs for this module are defined in `parameters/mgDiagSettings.parameters.
 az deployment mg create \
   --template-file infra-as-code/bicep/modules/mgDiagSettings/mgDiagSettings.bicep \
   --parameters @infra-as-code/bicep/modules/mgDiagSettings/parameters/mgDiagSettings.parameters.all.json \
-  --location eastus \
+  --location norwayeast \
   --management-group-id alz
 ```
 
@@ -52,7 +52,7 @@ az deployment mg create \
 New-AzManagementGroupDeployment `
   -TemplateFile infra-as-code/bicep/modules/mgDiagSettings/mgDiagSettings.bicep `
   -TemplateParameterFile @infra-as-code/bicep/modules/mgDiagSettings/parameters/mgDiagSettings.parameters.all.json `
-  -Location eastus `
+  -Location norwayeast `
   -ManagementGroupId alz
 ```
 

@@ -20,8 +20,8 @@ The module requires the following inputs:
  | Parameter                        | Type   | Default | Description                                                     | Requirement                                  | Example         |
  | -------------------------------- | ------ | ------- | --------------------------------------------------------------- | -------------------------------------------- | --------------- |
  | parDestinationVirtualNetworkId   | string | None    | ID of the Destination Virtual Network                           | Valid Virtual Network ID                     |
- | parSourceVirtualNetworkName      | string | None    | Name of Source Virtual Network                                  | Valid Azure Region                           | alz-spk-eastus2 |
- | parDestinationVirtualNetworkName | string | None    | Virtual Network Name of the destination/target Virtual Network. | 2-64 char, letters, numbers, and underscores | alz-hub-eastus2 |
+ | parSourceVirtualNetworkName      | string | None    | Name of Source Virtual Network                                  | Valid Azure Region                           | alz-spk-norwayeast2 |
+ | parDestinationVirtualNetworkName | string | None    | Virtual Network Name of the destination/target Virtual Network. | 2-64 char, letters, numbers, and underscores | alz-hub-norwayeast2 |
  | parAllowVirtualNetworkAccess     | bool   | true    | Switch to enable virtual Network Access                         | None                                         | true            |
  | parAllowForwardedTraffic         | bool   | true    | Switch to enable Forwarded Traffic                              | None                                         | true            |
  | parAllowGatewayTransit           | bool   | false   | Switch to enable Gateway Transit                                | None                                         | false           |
@@ -69,7 +69,7 @@ PARAMETERS="@infra-as-code/bicep/modules/vnetPeering/parameters/vnetPeering.para
 # Create Resource Group - optional when using an existing resource group
 az group create \
   --name $GROUP \
-  --location eastus
+  --location norwayeast
 
 az deployment group create --name ${NAME:0:63} --resource-group $GROUP --template-file $TEMPLATEFILE --parameters $PARAMETERS
 ```
@@ -112,7 +112,7 @@ $TopLevelMGPrefix = "alz"
 # Create Resource Group - optional when using an existing resource group
 New-AzResourceGroup `
   -Name $inputObject.ResourceGroupName `
-  -Location eastus
+  -Location norwayeast
 
 # Parameters necessary for deployment
 $inputObject = @{

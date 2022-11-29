@@ -34,7 +34,7 @@ The module requires the following inputs:
 
  | Parameter                    | Type   | Default                    | Description                                                         | Requirement | Example                                                                                                                                               |
  | ---------------------------- | ------ | -------------------------- | ------------------------------------------------------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
- | parLocation                    | string | `resourceGroup().location` | The Azure Region to deploy the resources into                       | None        | `eastus`                                                                                                                                              |
+ | parLocation                    | string | `resourceGroup().location` | The Azure Region to deploy the resources into                       | None        | `norwayeast`                                                                                                                                              |
  | parDisableBgpRoutePropagation | bool   | false                      | Switch which allows BGP Propagation to be disabled on the route table          | None        | false                                                                                                                                                 |
  | parTags                      | object | Empty object `{}`          | Array of Tags to be applied to all resources in the Spoke Network   | None        | `{"key": "value"}`                                                                                                                                    |
  | parDdosProtectionPlanId      | string | Empty string `''`          | Existing DDoS Protection plan to utilize                            | None        | `/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/Hub_Networking_POC/providers/Microsoft.Network/ddosProtectionPlans/alz-ddos-plan` |
@@ -51,8 +51,8 @@ The module will generate the following outputs:
 
 | Output                      | Type   | Example                                                                                                                                             |
 | --------------------------- | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| outSpokeVirtualNetworkName | string | Corp-Spoke-eastus                                                                                                                                   |
-| outSpokeVirtualNetworkId    | string | /subscriptions/xxxxxxxx-xxxx-xxxx-xxxxx-xxxxxxxxx/resourceGroups/net-core-hub-eastus-rg/providers/Microsoft.Network/virtualNetworks/vnet-hub-eastus |
+| outSpokeVirtualNetworkName | string | Corp-Spoke-norwayeast                                                                                                                                   |
+| outSpokeVirtualNetworkId    | string | /subscriptions/xxxxxxxx-xxxx-xxxx-xxxxx-xxxxxxxxx/resourceGroups/net-core-hub-norwayeast-rg/providers/Microsoft.Network/virtualNetworks/vnet-hub-norwayeast |
 
 ## Deployment
 
@@ -83,7 +83,7 @@ PARAMETERS="@infra-as-code/bicep/modules/spokeNetworking/parameters/spokeNetwork
 # Create Resource Group - optional when using an existing resource group
 az group create \
   --name $GROUP \
-  --location eastus
+  --location norwayeast
 
 az deployment group create --name ${NAME:0:63} --resource-group $GROUP --template-file $TEMPLATEFILE --parameters $PARAMETERS
 ```
@@ -134,7 +134,7 @@ $inputObject = @{
 
 New-AzResourceGroup `
   -Name $inputObject.ResourceGroupName `
-  -Location 'eastus'
+  -Location 'norwayeast'
 
 New-AzResourceGroupDeployment @inputObject
 ```

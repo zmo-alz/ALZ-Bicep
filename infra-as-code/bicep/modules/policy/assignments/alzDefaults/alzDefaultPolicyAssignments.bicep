@@ -3,8 +3,8 @@
 @maxLength(10)
 param parTopLevelManagementGroupPrefix string = 'alz'
 
-@description('The region where the Log Analytics Workspace & Automation Account are deployed. DEFAULT VALUE = eastus')
-param parLogAnalyticsWorkSpaceAndAutomationAccountLocation string = 'eastus'
+@description('The region where the Log Analytics Workspace & Automation Account are deployed. DEFAULT VALUE = norwayeast')
+param parLogAnalyticsWorkSpaceAndAutomationAccountLocation string = 'norwayeast'
 
 @description('Log Analytics Workspace Resource ID. - DEFAULT VALUE: Empty String ')
 param parLogAnalyticsWorkspaceResourceId string = ''

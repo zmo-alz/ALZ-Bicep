@@ -13,7 +13,7 @@ The module requires the following inputs:
  | Parameter                                            | Description                                                                                                                                                                                                                      | Requirement | Example                                                                                                                                               | Default Value                     |
  | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- |
  | parTopLevelManagementGroupPrefix                     | Prefix for the management group hierarchy.                                                                                                                                                                                       | Yes         | `alz`                                                                                                                                                 | `alz`                             |
- | parLogAnalyticsWorkSpaceAndAutomationAccountLocation | The region where the Log Analytics Workspace & Automation Account are deployed.                                                                                                                                                  | Yes         | `eastus`                                                                                                                                              | `eastus`                          |
+ | parLogAnalyticsWorkSpaceAndAutomationAccountLocation | The region where the Log Analytics Workspace & Automation Account are deployed.                                                                                                                                                  | Yes         | `norwayeast`                                                                                                                                              | `norwayeast`                          |
  | parLogAnalyticsWorkspaceResourceId                   | Log Analytics Workspace Resource ID                                                                                                                                                                                              | Yes         | `/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/alz-logging/providers/Microsoft.OperationalInsights/workspaces/alz-log-analytics` | None                              |
  | parLogAnalyticsWorkspaceLogRetentionInDays           | Number of days of log retention for Log Analytics Workspace                                                                                                                                                                      | Yes         | `365`                                                                                                                                                 | `365`                             |
  | parAutomationAccountName                             | Automation Account name                                                                                                                                                                                                          | Yes         | `alz-automation-account`                                                                                                                              | `alz-automation-account`          |
@@ -40,7 +40,7 @@ The module does not generate any outputs.
 
 dateYMD=$(date +%Y%m%dT%H%M%S%NZ)
 NAME="alz-alzPolicyAssignmentDefaults-${dateYMD}"
-LOCATION="eastus"
+LOCATION="norwayeast"
 MGID="alz"
 TEMPLATEFILE="infra-as-code/bicep/modules/policy/assignments/alzDefaults/alzDefaultPolicyAssignments.bicep"
 PARAMETERS="@infra-as-code/bicep/modules/policy/assignments/alzDefaults/parameters/alzDefaultPolicyAssignments.parameters.all.json"
@@ -68,7 +68,7 @@ az deployment mg create --name ${NAME:0:63} --location $LOCATION --management-gr
 
 $inputObject = @{
   DeploymentName        = 'alz-alzPolicyAssignmentDefaultsDeployment-{0}' -f (-join (Get-Date -Format 'yyyyMMddTHHMMssffffZ')[0..63])
-  Location              = 'eastus'
+  Location              = 'norwayeast'
   ManagementGroupId     = 'alz'
   TemplateFile          = "infra-as-code/bicep/modules/policy/assignments/alzDefaults/alzDefaultPolicyAssignments.bicep"
   TemplateParameterFile = 'infra-as-code/bicep/modules/policy/assignments/alzDefaults/parameters/alzDefaultPolicyAssignments.parameters.all.json'

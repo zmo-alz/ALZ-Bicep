@@ -1,34 +1,35 @@
-<!-- markdownlint-disable -->
-## Azure Landing Zones Bicep - GitHub Actions Pipeline
-<!-- markdownlint-restore -->
-
-### Intro
-
-This sample pipeline is provided as an example that is intended to be used for learning purposes.
-
-Please review the [Pipelines Overview](https://github.com/Azure/ALZ-Bicep/wiki/PipelinesOverview) and [Deployment Flow Prerequisites](https://github.com/Azure/ALZ-Bicep/wiki/DeploymentFlow#prerequisites) before running the pipeline. A successful run will require updated module parameter files and a deployment identity.
-
-### Sample code
-
-```yaml
 name: ALZ GitHub Actions deployment pipeline
 
 on: [workflow_dispatch]
 
 env:
-  ManagementGroupPrefix: "alz"
+  ManagementGroupPrefix: "zmoalz"
   TopLevelManagementGroupDisplayName: "Azure Landing Zones"
-  Location: "eastus"
-  LoggingSubId: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-  LoggingResourceGroupName: "alz-logging"
-  HubNetworkSubId: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-  HubNetworkResourceGroupName: "Hub_Networking_POC"
+  Location: "norwayeast"
+  LoggingSubId: "44273f48-4fd6-4144-b278-d19d201ad922"
+  LoggingResourceGroupName: "alz-centrallogging"
+  HubNetworkSubId: "0f18a4f9-2e78-43d0-b06a-6a490469a7a6"
+  HubNetworkResourceGroupName: "Hub_Networking"
   RoleAssignmentManagementGroupId: "alz-platform"
-  SpokeNetworkSubId: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-  SpokeNetworkResourceGroupName: "Spoke_Networking_POC"
+  PrivateSpokeNetworkSubId: "6a4b4279-20aa-4245-8b88-64f9f491b9b2"
+  PrivateSpokeNetworkResourceGroupName: "Private_LZ1_Networking"
+  PublicSpokeNetworkSubId: "1e63056d-66f8-4d36-8454-b4375eb8578f"
+  PublicSpokeNetworkResourceGroupName: "Public_LZ1_Networking"
   runNumber: ${{ github.run_number }}
 
 jobs:
+  analyze_arm:
+    name: Analyze templates
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    # Analyze Azure resources using PSRule for Azure
+    - name: Analyze Azure template files
+      uses: microsoft/ps-rule@v2.5.2
+      with:
+        modules: 'PSRule.Rules.Azure'
   bicep_tenant_deploy:
     runs-on: ubuntu-latest
     steps:
@@ -154,26 +155,48 @@ jobs:
           deploymentName: create_policy_assignments-${{ env.runNumber }}
           failOnStdErr: false
 
-      - name: Deploy Spoke Networking Resource Group
+      - name: Deploy Private Spoke Networking Resource Group
         id: create_spoke_network_rg
         uses: azure/arm-deploy@v1
         with:
           scope: subscription
-          subscriptionId: ${{ env.SpokeNetworkSubId }}
+          subscriptionId: ${{ env.PrivateSpokeNetworkSubId }}
           region: ${{ env.Location }}
           template: infra-as-code/bicep/modules/resourceGroup/resourceGroup.bicep
-          parameters: parResourceGroupName=${{ env.SpokeNetworkResourceGroupName }} parLocation=${{ env.Location }}
+          parameters: parResourceGroupName=${{ env.PrivateSpokeNetworkResourceGroupName }} parLocation=${{ env.Location }}
           deploymentName: create_spoke_network_rg-${{ env.runNumber }}
           failOnStdErr: false
 
-      - name: Deploy Spoke Network
+      - name: Deploy Private Spoke Network
         id: create_spoke_network
         uses: azure/arm-deploy@v1
         with:
-          subscriptionId: ${{ env.SpokeNetworkSubId }}
-          resourceGroupName: ${{ env.SpokeNetworkResourceGroupName }}
+          subscriptionId: ${{ env.PrivateSpokeNetworkSubId }}
+          resourceGroupName: ${{ env.PrivateSpokeNetworkResourceGroupName }}
           template: infra-as-code/bicep/modules/spokeNetworking/spokeNetworking.bicep
           parameters: infra-as-code/bicep/modules/spokeNetworking/parameters/spokeNetworking.parameters.all.json
           deploymentName: create_spoke_network-${{ env.runNumber }}
           failOnStdErr: false
-```
+
+      - name: Deploy Public Spoke Networking Resource Group
+        id: create_spoke_network_rg
+        uses: azure/arm-deploy@v1
+        with:
+          scope: subscription
+          subscriptionId: ${{ env.PublicSpokeNetworkSubId }}
+          region: ${{ env.Location }}
+          template: infra-as-code/bicep/modules/resourceGroup/resourceGroup.bicep
+          parameters: parResourceGroupName=${{ env.PublicSpokeNetworkResourceGroupName }} parLocation=${{ env.Location }}
+          deploymentName: create_spoke_network_rg-${{ env.runNumber }}
+          failOnStdErr: false
+
+      - name: Deploy Public Spoke Network
+        id: create_spoke_network
+        uses: azure/arm-deploy@v1
+        with:
+          subscriptionId: ${{ env.PublicSpokeNetworkSubId }}
+          resourceGroupName: ${{ env.PublicSpokeNetworkResourceGroupName }}
+          template: infra-as-code/bicep/modules/spokeNetworking/spokeNetworking.bicep
+          parameters: infra-as-code/bicep/modules/spokeNetworking/parameters/spokeNetworking.parameters.all.json
+          deploymentName: create_spoke_network-${{ env.runNumber }}
+          failOnStdErr: false
