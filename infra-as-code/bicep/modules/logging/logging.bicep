@@ -68,7 +68,7 @@ param parAutomationAccountTags object = parTags
 param parLogAnalyticsWorkspaceTags object = parTags
 
 @description('Set Parameter to true to Opt-out of deployment telemetry')
-param parTelemetryOptOut bool = false
+param parTelemetryOptOut bool = true
 
 // Customer Usage Attribution Id
 var varCuaid = 'f8087c67-cc41-46b2-994d-66e4b661860d'

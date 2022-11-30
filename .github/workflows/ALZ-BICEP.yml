@@ -1,6 +1,12 @@
 name: ALZ GitHub Actions deployment pipeline
 
-on: [workflow_dispatch]
+on:
+  pull_request:
+    branches:
+    - zmo-alz
+  push:
+    branches:
+    - zmo-alz
 
 env:
   ManagementGroupPrefix: "zmoalz"
