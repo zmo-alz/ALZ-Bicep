@@ -12,7 +12,7 @@
         "value": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
       },
       "parPeeredVnetSubscriptionMgPlacement": {
-        "value": "alz-platform-connectivity"
+        "value": "zmoalz-platform-connectivity"
       },
       "parDdosProtectionPlanId": {
         "value": ""

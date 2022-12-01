@@ -4,7 +4,7 @@ metadata name = 'ALZ Bicep - Custom Role Definitions'
 metadata description ='Custom Role Definitions for ALZ Bicep'
 
 @sys.description('The management group scope to which the role can be assigned. This management group ID will be used for the assignableScopes property in the role definition. Default: alz')
-param parAssignableScopeManagementGroupId string = 'alz'
+param parAssignableScopeManagementGroupId string = 'zmoalz'
 
 @sys.description('Set Parameter to true to Opt-out of deployment telemetry. Default: false')
 param parTelemetryOptOut bool = true

@@ -4,8 +4,8 @@
   "parameters": {
     "parManagementGroupIds": {
       "value": [
-        "alz-platform-connectivity",
-        "alz-platform-identity"
+        "zmoalz-platform-connectivity",
+        "zmoalz-platform-identity"
       ]
     },
     "parRoleDefinitionId": {

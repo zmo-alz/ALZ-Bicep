@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "parTargetManagementGroupId": {
-      "value": "alz-platform-connectivity"
+      "value": "zmoalz-platform-connectivity"
     },
     "parSubscriptionIds": {
       "value": [
