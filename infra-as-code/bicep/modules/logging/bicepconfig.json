@@ -11,7 +11,7 @@
           "level": "error"
         },
         "no-unnecessary-dependson": {
-          "level": "error"
+          "level": "error" 
         },
         "no-unused-params": {
           "level": "error"

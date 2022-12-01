@@ -8,7 +8,7 @@
           "level": "error"
         },
         "no-hardcoded-env-urls": {
-          "level": "error",
+          "level": "error", 
           "disallowedhosts": [
             "management.core.windows.net",
             "gallery.azure.com",
