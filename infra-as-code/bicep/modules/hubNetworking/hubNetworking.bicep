@@ -40,7 +40,7 @@ param parDnsServerIps array = []
 param parPublicIpSku string = 'Standard'
 
 @sys.description('Switch to enable/disable Azure Bastion deployment. Default: true')
-param parAzBastionEnabled bool = true
+param parAzBastionEnabled bool = false
 
 @sys.description('Name Associated with Bastion Service:  Default: {parCompanyPrefix}-bastion')
 param parAzBastionName string = '${parCompanyPrefix}-bastion'

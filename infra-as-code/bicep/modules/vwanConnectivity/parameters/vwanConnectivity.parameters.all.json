@@ -18,10 +18,10 @@
       "value": true
     },
     "parVpnGatewayEnabled": {
-      "value": true
+      "value": false
     },
     "parExpressRouteGatewayEnabled": {
-      "value": true
+      "value": false
     },
     "parAzFirewallEnabled": {
       "value": true
@@ -57,7 +57,7 @@
       "value": 1
     },
     "parDdosEnabled": {
-      "value": true
+      "value": false
     },
     "parDdosPlanName": {
       "value": "alz-ddos-plan"
