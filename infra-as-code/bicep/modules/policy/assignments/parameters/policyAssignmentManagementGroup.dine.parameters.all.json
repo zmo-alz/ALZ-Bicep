@@ -77,7 +77,7 @@
         },
         "parPolicyAssignmentIdentityRoleAssignmentsAdditionalMgs": {
             "value": [
-                "zmoalz-platform" 
+                "zmoalz-platform"
             ]
         },
         "parPolicyAssignmentIdentityRoleAssignmentsSubs": {
