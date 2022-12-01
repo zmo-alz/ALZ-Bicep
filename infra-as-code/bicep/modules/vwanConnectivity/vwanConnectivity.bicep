@@ -1,47 +1,50 @@
-@description('Region in which the resource group was created. Default: {resourceGroup().location}')
+metadata name = 'ALZ Bicep - Azure vWAN Connectivity Module'
+metadata description = 'Module used to set up vWAN Connectivity'
+
+@sys.description('Region in which the resource group was created. Default: {resourceGroup().location}')
 param parLocation string = resourceGroup().location
 
-@description('Prefix value which will be prepended to all resource names. Default: alz')
+@sys.description('Prefix value which will be prepended to all resource names. Default: alz')
 param parCompanyPrefix string = 'alz'
 
-@description('The IP address range in CIDR notation for the vWAN virtual Hub to use. Default: 10.100.0.0/23')
+@sys.description('The IP address range in CIDR notation for the vWAN virtual Hub to use. Default: 10.100.0.0/23')
 param parVirtualHubAddressPrefix string = '10.100.0.0/23'
 
-@description('Azure Firewall Tier associated with the Firewall to deploy. Default: Standard ')
+@sys.description('Azure Firewall Tier associated with the Firewall to deploy. Default: Standard ')
 @allowed([
   'Standard'
   'Premium'
 ])
 param parAzFirewallTier string = 'Standard'
 
-@description('Switch to enable/disable Virtual Hub deployment. Default: true')
+@sys.description('Switch to enable/disable Virtual Hub deployment. Default: true')
 param parVirtualHubEnabled bool = true
 
-@description('Switch to enable/disable VPN Gateway deployment. Default: false')
+@sys.description('Switch to enable/disable VPN Gateway deployment. Default: false')
 param parVpnGatewayEnabled bool = true
 
-@description('Switch to enable/disable ExpressRoute Gateway deployment. Default: false')
+@sys.description('Switch to enable/disable ExpressRoute Gateway deployment. Default: false')
 param parExpressRouteGatewayEnabled bool = true
 
-@description('Switch to enable/disable Azure Firewall deployment. Default: false')
+@sys.description('Switch to enable/disable Azure Firewall deployment. Default: false')
 param parAzFirewallEnabled bool = true
 
-@description('Switch to enable/disable Azure Firewall DNS Proxy. Default: false')
+@sys.description('Switch to enable/disable Azure Firewall DNS Proxy. Default: false')
 param parAzFirewallDnsProxyEnabled bool = true
 
-@description('Prefix Used for Virtual WAN. Default: {parCompanyPrefix}-vwan-{parLocation}')
+@sys.description('Prefix Used for Virtual WAN. Default: {parCompanyPrefix}-vwan-{parLocation}')
 param parVirtualWanName string = '${parCompanyPrefix}-vwan-${parLocation}'
 
-@description('Prefix Used for Virtual WAN Hub. Default: {parCompanyPrefix}-hub-{parLocation}')
+@sys.description('Prefix Used for Virtual WAN Hub. Default: {parCompanyPrefix}-hub-{parLocation}')
 param parVirtualWanHubName string = '${parCompanyPrefix}-vhub-${parLocation}'
 
-@description('Prefix Used for VPN Gateway. Default: {parCompanyPrefix}-vpngw-{parLocation}')
+@sys.description('Prefix Used for VPN Gateway. Default: {parCompanyPrefix}-vpngw-{parLocation}')
 param parVpnGatewayName string = '${parCompanyPrefix}-vpngw-${parLocation}'
 
-@description('Prefix Used for ExpressRoute Gateway. Default: {parCompanyPrefix}-ergw-{parLocation}')
+@sys.description('Prefix Used for ExpressRoute Gateway. Default: {parCompanyPrefix}-ergw-{parLocation}')
 param parExpressRouteGatewayName string = '${parCompanyPrefix}-ergw-${parLocation}'
 
-@description('Azure Firewall Name. Default: {parCompanyPrefix}-fw-{parLocation}')
+@sys.description('Azure Firewall Name. Default: {parCompanyPrefix}-fw-{parLocation}')
 param parAzFirewallName string = '${parCompanyPrefix}-fw-${parLocation}'
 
 @allowed([
@@ -49,93 +52,107 @@ param parAzFirewallName string = '${parCompanyPrefix}-fw-${parLocation}'
   '2'
   '3'
 ])
-@description('Availability Zones to deploy the Azure Firewall across. Region must support Availability Zones to use. If it does not then leave empty.')
+@sys.description('Availability Zones to deploy the Azure Firewall across. Region must support Availability Zones to use. If it does not then leave empty.')
 param parAzFirewallAvailabilityZones array = []
 
-@description('Azure Firewall Policies Name. Default: {parCompanyPrefix}-fwpol-{parLocation}')
+@sys.description('Azure Firewall Policies Name. Default: {parCompanyPrefix}-fwpol-{parLocation}')
 param parAzFirewallPoliciesName string = '${parCompanyPrefix}-azfwpolicy-${parLocation}'
 
-@description('The scale unit for this VPN Gateway: Default: 1')
+@sys.description('The scale unit for this VPN Gateway: Default: 1')
 param parVpnGatewayScaleUnit int = 1
 
-@description('The scale unit for this ExpressRoute Gateway: Default: 1')
+@sys.description('The scale unit for this ExpressRoute Gateway: Default: 1')
 param parExpressRouteGatewayScaleUnit int = 1
 
-@description('Switch to enable/disable DDoS Standard deployment. Default: true')
+@sys.description('Switch to enable/disable DDoS Network Protection deployment. Default: true')
 param parDdosEnabled bool = true
 
-@description('DDoS Plan Name. Default: {parCompanyPrefix}-ddos-plan')
+@sys.description('DDoS Plan Name. Default: {parCompanyPrefix}-ddos-plan')
 param parDdosPlanName string = '${parCompanyPrefix}-ddos-plan'
 
-@description('Switch to enable/disable Private DNS Zones deployment. Default: true')
+@sys.description('Switch to enable/disable Private DNS Zones deployment. Default: true')
 param parPrivateDnsZonesEnabled bool = true
 
-@description('Resource Group Name for Private DNS Zones. Default: same resource group')
+@sys.description('Resource Group Name for Private DNS Zones. Default: same resource group')
 param parPrivateDnsZonesResourceGroup string = resourceGroup().name
 
-@description('Array of DNS Zones to provision in Hub Virtual Network. Default: All known Azure Private DNS Zones')
+@sys.description('Array of DNS Zones to provision in Hub Virtual Network. Default: All known Azure Private DNS Zones')
 param parPrivateDnsZones array = [
-  'privatelink.azure-automation.net'
-  'privatelink.database.windows.net'
-  'privatelink.sql.azuresynapse.net'
-  'privatelink.dev.azuresynapse.net'
-  'privatelink.azuresynapse.net'
-  'privatelink.blob.core.windows.net'
-  'privatelink.table.core.windows.net'
-  'privatelink.queue.core.windows.net'
-  'privatelink.file.core.windows.net'
-  'privatelink.web.core.windows.net'
-  'privatelink.dfs.core.windows.net'
-  'privatelink.documents.azure.com'
-  'privatelink.mongo.cosmos.azure.com'
-  'privatelink.cassandra.cosmos.azure.com'
-  'privatelink.gremlin.cosmos.azure.com'
-  'privatelink.table.cosmos.azure.com'
-  'privatelink.${parLocation}.batch.azure.com'
-  'privatelink.postgres.database.azure.com'
-  'privatelink.mysql.database.azure.com'
-  'privatelink.mariadb.database.azure.com'
-  'privatelink.vaultcore.azure.net'
-  'privatelink.managedhsm.azure.net'
-  'privatelink.${parLocation}.azmk8s.io'
-  'privatelink.${parLocation}.backup.windowsazure.com'
-  'privatelink.siterecovery.windowsazure.com'
-  'privatelink.servicebus.windows.net'
-  'privatelink.azure-devices.net'
-  'privatelink.eventgrid.azure.net'
-  'privatelink.azurewebsites.net'
-  'privatelink.api.azureml.ms'
-  'privatelink.notebooks.azure.net'
-  'privatelink.service.signalr.net'
-  'privatelink.monitor.azure.com'
-  'privatelink.oms.opinsights.azure.com'
-  'privatelink.ods.opinsights.azure.com'
-  'privatelink.agentsvc.azure-automation.net'
-  'privatelink.afs.azure.net'
-  'privatelink.datafactory.azure.net'
+  'privatelink.${toLower(parLocation)}.azmk8s.io'
+  'privatelink.${toLower(parLocation)}.batch.azure.com'
+  'privatelink.${toLower(parLocation)}.kusto.windows.net'
   'privatelink.adf.azure.com'
-  'privatelink.redis.cache.windows.net'
-  'privatelink.redisenterprise.cache.azure.net'
+  'privatelink.afs.azure.net'
+  'privatelink.agentsvc.azure-automation.net'
+  'privatelink.analysis.windows.net'
+  'privatelink.api.azureml.ms'
+  'privatelink.azconfig.io'
+  'privatelink.azure-api.net'
+  'privatelink.azure-automation.net'
+  'privatelink.azurecr.io'
+  'privatelink.azure-devices.net'
+  'privatelink.azure-devices-provisioning.net'
+  'privatelink.azurehdinsight.net'
+  'privatelink.azurehealthcareapis.com'
+  'privatelink.azurestaticapps.net'
+  'privatelink.azuresynapse.net'
+  'privatelink.azurewebsites.net'
+  'privatelink.batch.azure.com'
+  'privatelink.blob.core.windows.net'
+  'privatelink.cassandra.cosmos.azure.com'
+  'privatelink.cognitiveservices.azure.com'
+  'privatelink.database.windows.net'
+  'privatelink.datafactory.azure.net'
+  'privatelink.dev.azuresynapse.net'
+  'privatelink.dfs.core.windows.net'
+  'privatelink.dicom.azurehealthcareapis.com'
+  'privatelink.digitaltwins.azure.net'
+  'privatelink.directline.botframework.com'
+  'privatelink.documents.azure.com'
+  'privatelink.eventgrid.azure.net'
+  'privatelink.file.core.windows.net'
+  'privatelink.gremlin.cosmos.azure.com'
+  'privatelink.guestconfiguration.azure.com'
+  'privatelink.his.arc.azure.com'
+  'privatelink.kubernetesconfiguration.azure.com'
+  'privatelink.managedhsm.azure.net'
+  'privatelink.mariadb.database.azure.com'
+  'privatelink.media.azure.net'
+  'privatelink.mongo.cosmos.azure.com'
+  'privatelink.monitor.azure.com'
+  'privatelink.mysql.database.azure.com'
+  'privatelink.notebooks.azure.net'
+  'privatelink.ods.opinsights.azure.com'
+  'privatelink.oms.opinsights.azure.com'
+  'privatelink.pbidedicated.windows.net'
+  'privatelink.postgres.database.azure.com'
+  'privatelink.prod.migration.windowsazure.com'
   'privatelink.purview.azure.com'
   'privatelink.purviewstudio.azure.com'
-  'privatelink.digitaltwins.azure.net'
-  'privatelink.azconfig.io'
-  'privatelink.cognitiveservices.azure.com'
-  'privatelink.azurecr.io'
+  'privatelink.queue.core.windows.net'
+  'privatelink.redis.cache.windows.net'
+  'privatelink.redisenterprise.cache.azure.net'
   'privatelink.search.windows.net'
-  'privatelink.azurehdinsight.net'
-  'privatelink.media.azure.net'
-  'privatelink.his.arc.azure.com'
-  'privatelink.guestconfiguration.azure.com'
+  'privatelink.service.signalr.net'
+  'privatelink.servicebus.windows.net'
+  'privatelink.siterecovery.windowsazure.com'
+  'privatelink.sql.azuresynapse.net'
+  'privatelink.table.core.windows.net'
+  'privatelink.table.cosmos.azure.com'
+  'privatelink.tip1.powerquery.microsoft.com'
+  'privatelink.token.botframework.com'
+  'privatelink.vaultcore.azure.net'
+  'privatelink.web.core.windows.net'
+  'privatelink.webpubsub.azure.com'
 ]
 
-@description('Resource ID of VNet for Private DNS Zone VNet Links')
+@sys.description('Resource ID of VNet for Private DNS Zone VNet Links')
 param parVirtualNetworkIdToLink string = ''
 
-@description('Tags you would like to be applied to all resources in this module. Default: empty array')
+@sys.description('Tags you would like to be applied to all resources in this module. Default: empty array')
 param parTags object = {}
 
-@description('Set Parameter to true to Opt-out of deployment telemetry')
+@sys.description('Set Parameter to true to Opt-out of deployment telemetry')
 param parTelemetryOptOut bool = false
 
 // Customer Usage Attribution Id

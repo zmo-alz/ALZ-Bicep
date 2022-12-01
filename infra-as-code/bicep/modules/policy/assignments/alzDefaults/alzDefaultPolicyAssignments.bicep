@@ -1,27 +1,38 @@
-@description('Prefix for the management group hierarchy. DEFAULT VALUE = alz')
+metadata name = 'ALZ Bicep - ALZ Default Policy Assignments'
+metadata description = 'This policy assignment will assign the ALZ Default Policy to management groups'
+
+@sys.description('Prefix for the management group hierarchy. DEFAULT VALUE = alz')
 @minLength(2)
 @maxLength(10)
 param parTopLevelManagementGroupPrefix string = 'alz'
 
+<<<<<<< HEAD
 @description('The region where the Log Analytics Workspace & Automation Account are deployed. DEFAULT VALUE = norwayeast')
 param parLogAnalyticsWorkSpaceAndAutomationAccountLocation string = 'norwayeast'
+=======
+@sys.description('The region where the Log Analytics Workspace & Automation Account are deployed. DEFAULT VALUE = eastus')
+param parLogAnalyticsWorkSpaceAndAutomationAccountLocation string = 'eastus'
+>>>>>>> c3403f1a5a8e2feee8f378874e9edd583ff76ed5
 
-@description('Log Analytics Workspace Resource ID. - DEFAULT VALUE: Empty String ')
+@sys.description('Log Analytics Workspace Resource ID. - DEFAULT VALUE: Empty String ')
 param parLogAnalyticsWorkspaceResourceId string = ''
 
-@description('Number of days of log retention for Log Analytics Workspace. - DEFAULT VALUE: 365')
+@sys.description('Number of days of log retention for Log Analytics Workspace. - DEFAULT VALUE: 365')
 param parLogAnalyticsWorkspaceLogRetentionInDays string = '365'
 
-@description('Automation account name. - DEFAULT VALUE: alz-automation-account')
+@sys.description('Automation account name. - DEFAULT VALUE: alz-automation-account')
 param parAutomationAccountName string = 'alz-automation-account'
 
-@description('An e-mail address that you want Microsoft Defender for Cloud alerts to be sent to.')
+@sys.description('An e-mail address that you want Microsoft Defender for Cloud alerts to be sent to.')
 param parMsDefenderForCloudEmailSecurityContact string = 'security_contact@replace_me.com'
 
-@description('ID of the DdosProtectionPlan which will be applied to the Virtual Networks. If left empty, the policy Enable-DDoS-VNET will not be assigned at connectivity or landing zone Management Groups to avoid VNET deployment issues. Default: Empty String')
+@sys.description('ID of the DdosProtectionPlan which will be applied to the Virtual Networks. If left empty, the policy Enable-DDoS-VNET will not be assigned at connectivity or landing zone Management Groups to avoid VNET deployment issues. Default: Empty String')
 param parDdosProtectionPlanId string = ''
 
-@description('Set Parameter to true to Opt-out of deployment telemetry')
+@sys.description('Resource ID of the Resource Group that conatin the Private DNS Zones. If left empty, the policy Deploy-Private-DNS-Zones will not be assigned to the corp Management Group. Default: Empty String')
+param parPrivateDnsResourceGroupId string = ''
+
+@sys.description('Set Parameter to true to Opt-out of deployment telemetry')
 param parTelemetryOptOut bool = false
 
 var varLogAnalyticsWorkspaceName = split(parLogAnalyticsWorkspaceResourceId, '/')[8]
@@ -53,7 +64,6 @@ var varModuleDeploymentNames = {
   modPolicyAssignmentIdentDeployVmBackup: take('${varDeploymentNameWrappers.basePrefix}-polAssi-deployVMBackup-ident-${varDeploymentNameWrappers.baseSuffixTenantAndManagementGroup}', 64)
   modPolicyAssignmentMgmtDeployLogAnalytics: take('${varDeploymentNameWrappers.basePrefix}-polAssi-deployLAW-mgmt-${varDeploymentNameWrappers.baseSuffixTenantAndManagementGroup}', 64)
   modPolicyAssignmentLzsDenyIpForwarding: take('${varDeploymentNameWrappers.basePrefix}-polAssi-denyIPForward-lz-${varDeploymentNameWrappers.baseSuffixTenantAndManagementGroup}', 64)
-  modPolicyAssignmentLzsDenyPublicIp: take('${varDeploymentNameWrappers.basePrefix}-polAssi-denyPublicIP-corp-${varDeploymentNameWrappers.baseSuffixTenantAndManagementGroup}', 64)
   modPolicyAssignmentLzsDenyRdpFromInternet: take('${varDeploymentNameWrappers.basePrefix}-polAssi-denyRDPFromInet-lz-${varDeploymentNameWrappers.baseSuffixTenantAndManagementGroup}', 64)
   modPolicyAssignmentLzsDenySubnetWithoutNsg: take('${varDeploymentNameWrappers.basePrefix}-polAssi-denySubnetNoNSG-lz-${varDeploymentNameWrappers.baseSuffixTenantAndManagementGroup}', 64)
   modPolicyAssignmentLzsDeployVmBackup: take('${varDeploymentNameWrappers.basePrefix}-polAssi-deployVMBackup-lz-${varDeploymentNameWrappers.baseSuffixTenantAndManagementGroup}', 64)
@@ -116,7 +126,7 @@ var varPolicyAssignmentDenyPublicEndpoints = {
 }
 
 var varPolicyAssignmentDenyPublicIP = {
-  definitionId: '${varTopLevelManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Deny-PublicIP'
+  definitionId: '/providers/Microsoft.Authorization/policyDefinitions/6c112d4e-5bc7-47ae-a041-ea2d9dccd749'
   libDefinition: loadJsonContent('../../../policy/assignments/lib/policy_assignments/policy_assignment_es_deny_public_ip.tmpl.json')
 }
 
@@ -158,6 +168,11 @@ var varPolicyAssignmentDeployLogAnalytics = {
 var varPolicyAssignmentDeployMDFCConfig = {
   definitionId: '${varTopLevelManagementGroupResourceId}/providers/Microsoft.Authorization/policySetDefinitions/Deploy-MDFC-Config'
   libDefinition: loadJsonContent('../../../policy/assignments/lib/policy_assignments/policy_assignment_es_deploy_mdfc_config.tmpl.json')
+}
+
+var varPolicyAssignmentDeployPrivateDNSZones = {
+  definitionId: '${varTopLevelManagementGroupResourceId}/providers/Microsoft.Authorization/policySetDefinitions/Deploy-Private-DNS-Zones'
+  libDefinition: loadJsonContent('../../../policy/assignments/lib/policy_assignments/policy_assignment_es_deploy_private_dns_zones.tmpl.json')
 }
 
 var varPolicyAssignmentDeployResourceDiag = {
@@ -223,6 +238,66 @@ var varManagementGroupIds = {
 }
 
 var varTopLevelManagementGroupResourceId = '/providers/Microsoft.Management/managementGroups/${varManagementGroupIds.intRoot}'
+
+// Deploy-Private-DNS-Zones Variables
+
+var varPrivateDnsZonesResourceGroupSubscriptionId = !empty(parPrivateDnsResourceGroupId) ? split(parPrivateDnsResourceGroupId, '/')[2] : ''
+
+var varPrivateDnsZonesBaseResourceId = '${parPrivateDnsResourceGroupId}/providers/Microsoft.Network/privateDnsZones/'
+
+var varPrivateDnsZonesFinalResourceIds = {
+  azureFilePrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.afs.azure.net'
+  azureAutomationWebhookPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.azure-automation.net'
+  azureAutomationDSCHybridPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.azure-automation.net'
+  azureCosmosSQLPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.documents.azure.com'
+  azureCosmosMongoPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.mongo.cosmos.azure.com'
+  azureCosmosCassandraPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.cassandra.cosmos.azure.com'
+  azureCosmosGremlinPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.gremlin.cosmos.azure.com'
+  azureCosmosTablePrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.table.cosmos.azure.com'
+  azureDataFactoryPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.datafactory.azure.net'
+  azureDataFactoryPortalPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.adf.azure.com'
+  azureHDInsightPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.azurehdinsight.net'
+  azureMigratePrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.prod.migration.windowsazure.com'
+  azureStorageBlobPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.blob.core.windows.net'
+  azureStorageBlobSecPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.blob.core.windows.net'
+  azureStorageQueuePrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.queue.core.windows.net'
+  azureStorageQueueSecPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.queue.core.windows.net'
+  azureStorageFilePrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.file.core.windows.net'
+  azureStorageStaticWebPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.web.core.windows.net'
+  azureStorageStaticWebSecPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.web.core.windows.net'
+  azureStorageDFSPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.dfs.core.windows.net'
+  azureStorageDFSSecPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.dfs.core.windows.net'
+  azureSynapseSQLPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.sql.azuresynapse.net'
+  azureSynapseSQLODPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.sql.azuresynapse.net'
+  azureSynapseDevPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.dev.azuresynapse.net'
+  azureMediaServicesKeyPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.media.azure.net'
+  azureMediaServicesLivePrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.media.azure.net'
+  azureMediaServicesStreamPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.media.azure.net'
+  azureMonitorPrivateDnsZoneId1: '${varPrivateDnsZonesBaseResourceId}privatelink.monitor.azure.com'
+  azureMonitorPrivateDnsZoneId2: '${varPrivateDnsZonesBaseResourceId}privatelink.oms.opinsights.azure.com'
+  azureMonitorPrivateDnsZoneId3: '${varPrivateDnsZonesBaseResourceId}privatelink.ods.opinsights.azure.com'
+  azureMonitorPrivateDnsZoneId4: '${varPrivateDnsZonesBaseResourceId}privatelink.agentsvc.azure-automation.net'
+  azureMonitorPrivateDnsZoneId5: '${varPrivateDnsZonesBaseResourceId}privatelink.blob.core.windows.net'
+  azureWebPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.webpubsub.azure.com'
+  azureBatchPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.batch.azure.com'
+  azureAppPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.azconfig.io'
+  azureAsrPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.siterecovery.windowsazure.com'
+  azureIotPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.azure-devices-provisioning.net'
+  azureKeyVaultPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.vaultcore.azure.net'
+  azureSignalRPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.service.signalr.net'
+  azureAppServicesPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.azurewebsites.net'
+  azureEventGridTopicsPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.eventgrid.azure.net'
+  azureDiskAccessPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.blob.core.windows.net'
+  azureCognitiveServicesPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.cognitiveservices.azure.com'
+  azureIotHubsPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.azure-devices.net'
+  azureEventGridDomainsPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.eventgrid.azure.net'
+  azureRedisCachePrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.redis.cache.windows.net'
+  azureAcrPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.azurecr.io'
+  azureEventHubNamespacePrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.servicebus.windows.net'
+  azureMachineLearningWorkspacePrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.api.azureml.ms'
+  azureServiceBusNamespacePrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.servicebus.windows.net'
+  azureCognitiveSearchPrivateDnsZoneId: '${varPrivateDnsZonesBaseResourceId}privatelink.search.windows.net'
+}
 
 // **Scope**
 targetScope = 'managementGroup'
@@ -759,22 +834,6 @@ module modPolicyAssignmentLzsDenyPublicEndpoints '../../../policy/assignments/po
   }
 }
 
-// Module - Policy Assignment - Deny-Public-IP
-module modPolicyAssignmentLzsDenyPublicIp '../../../policy/assignments/policyAssignmentManagementGroup.bicep' = {
-  scope: managementGroup(varManagementGroupIds.landingZonesCorp)
-  name: varModuleDeploymentNames.modPolicyAssignmentLzsDenyPublicIp
-  params: {
-    parPolicyAssignmentDefinitionId: varPolicyAssignmentDenyPublicIP.definitionId
-    parPolicyAssignmentName: varPolicyAssignmentDenyPublicIP.libDefinition.name
-    parPolicyAssignmentDisplayName: varPolicyAssignmentDenyPublicIP.libDefinition.properties.displayName
-    parPolicyAssignmentDescription: varPolicyAssignmentDenyPublicIP.libDefinition.properties.description
-    parPolicyAssignmentParameters: varPolicyAssignmentDenyPublicIP.libDefinition.properties.parameters
-    parPolicyAssignmentIdentityType: varPolicyAssignmentDenyPublicIP.libDefinition.identity.type
-    parPolicyAssignmentEnforcementMode: varPolicyAssignmentDenyPublicIP.libDefinition.properties.enforcementMode
-    parTelemetryOptOut: parTelemetryOptOut
-  }
-}
-
 // Module - Policy Assignment - Deny-DataB-Pip
 module modPolicyAssignmentLzsDenyDataBPip '../../../policy/assignments/policyAssignmentManagementGroup.bicep' = {
   scope: managementGroup(varManagementGroupIds.landingZonesCorp)
@@ -819,6 +878,183 @@ module modPolicyAssignmentLzsDenyDataBVnet '../../../policy/assignments/policyAs
     parPolicyAssignmentParameters: varPolicyAssignmentDenyDataBVnet.libDefinition.properties.parameters
     parPolicyAssignmentIdentityType: varPolicyAssignmentDenyDataBVnet.libDefinition.identity.type
     parPolicyAssignmentEnforcementMode: varPolicyAssignmentDenyDataBVnet.libDefinition.properties.enforcementMode
+    parTelemetryOptOut: parTelemetryOptOut
+  }
+}
+
+// Module - Policy Assignment - Deploy-Private-DNS-Zones
+module modPolicyAssignmentConnDeployPrivateDnsZones '../../../policy/assignments/policyAssignmentManagementGroup.bicep' = if (!empty(varPrivateDnsZonesResourceGroupSubscriptionId)) {
+  scope: managementGroup(varManagementGroupIds.landingZonesCorp)
+  name: varModuleDeploymentNames.modPolicyAssignmentLzsDeployPrivateDnsZones
+  params: {
+    parPolicyAssignmentDefinitionId: varPolicyAssignmentDeployPrivateDNSZones.definitionId
+    parPolicyAssignmentName: varPolicyAssignmentDeployPrivateDNSZones.libDefinition.name
+    parPolicyAssignmentDisplayName: varPolicyAssignmentDeployPrivateDNSZones.libDefinition.properties.displayName
+    parPolicyAssignmentDescription: varPolicyAssignmentDeployPrivateDNSZones.libDefinition.properties.description
+    parPolicyAssignmentParameters: varPolicyAssignmentDeployPrivateDNSZones.libDefinition.properties.parameters
+    parPolicyAssignmentParameterOverrides: {
+      azureFilePrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureFilePrivateDnsZoneId
+      }
+      azureAutomationWebhookPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureAutomationWebhookPrivateDnsZoneId
+      }
+      azureAutomationDSCHybridPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureAutomationDSCHybridPrivateDnsZoneId
+      }
+      azureCosmosSQLPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureCosmosSQLPrivateDnsZoneId
+      }
+      azureCosmosMongoPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureCosmosMongoPrivateDnsZoneId
+      }
+      azureCosmosCassandraPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureCosmosCassandraPrivateDnsZoneId
+      }
+      azureCosmosGremlinPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureCosmosGremlinPrivateDnsZoneId
+      }
+      azureCosmosTablePrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureCosmosTablePrivateDnsZoneId
+      }
+      azureDataFactoryPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureDataFactoryPrivateDnsZoneId
+      }
+      azureDataFactoryPortalPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureDataFactoryPortalPrivateDnsZoneId
+      }
+      azureHDInsightPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureHDInsightPrivateDnsZoneId
+      }
+      azureMigratePrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureMigratePrivateDnsZoneId
+      }
+      azureStorageBlobPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureStorageBlobPrivateDnsZoneId
+      }
+      azureStorageBlobSecPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureStorageBlobSecPrivateDnsZoneId
+      }
+      azureStorageQueuePrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureStorageQueuePrivateDnsZoneId
+      }
+      azureStorageQueueSecPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureStorageQueueSecPrivateDnsZoneId
+      }
+      azureStorageFilePrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureStorageFilePrivateDnsZoneId
+      }
+      azureStorageStaticWebPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureStorageStaticWebPrivateDnsZoneId
+      }
+      azureStorageStaticWebSecPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureStorageStaticWebSecPrivateDnsZoneId
+      }
+      azureStorageDFSPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureStorageDFSPrivateDnsZoneId
+      }
+      azureStorageDFSSecPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureStorageDFSSecPrivateDnsZoneId
+      }
+      azureSynapseSQLPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureSynapseSQLPrivateDnsZoneId
+      }
+      azureSynapseSQLODPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureSynapseSQLODPrivateDnsZoneId
+      }
+      azureSynapseDevPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureSynapseDevPrivateDnsZoneId
+      }
+      azureMediaServicesKeyPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureMediaServicesKeyPrivateDnsZoneId
+      }
+      azureMediaServicesLivePrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureMediaServicesLivePrivateDnsZoneId
+      }
+      azureMediaServicesStreamPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureMediaServicesStreamPrivateDnsZoneId
+      }
+      azureMonitorPrivateDnsZoneId1: {
+        value: varPrivateDnsZonesFinalResourceIds.azureMonitorPrivateDnsZoneId1
+      }
+      azureMonitorPrivateDnsZoneId2: {
+        value: varPrivateDnsZonesFinalResourceIds.azureMonitorPrivateDnsZoneId2
+      }
+      azureMonitorPrivateDnsZoneId3: {
+        value: varPrivateDnsZonesFinalResourceIds.azureMonitorPrivateDnsZoneId3
+      }
+      azureMonitorPrivateDnsZoneId4: {
+        value: varPrivateDnsZonesFinalResourceIds.azureMonitorPrivateDnsZoneId4
+      }
+      azureMonitorPrivateDnsZoneId5: {
+        value: varPrivateDnsZonesFinalResourceIds.azureMonitorPrivateDnsZoneId5
+      }
+      azureWebPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureWebPrivateDnsZoneId
+      }
+      azureBatchPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureBatchPrivateDnsZoneId
+      }
+      azureAppPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureAppPrivateDnsZoneId
+      }
+      azureAsrPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureAsrPrivateDnsZoneId
+      }
+      azureIotPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureIotPrivateDnsZoneId
+      }
+      azureKeyVaultPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureKeyVaultPrivateDnsZoneId
+      }
+      azureSignalRPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureSignalRPrivateDnsZoneId
+      }
+      azureAppServicesPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureAppServicesPrivateDnsZoneId
+      }
+      azureEventGridTopicsPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureEventGridTopicsPrivateDnsZoneId
+      }
+      azureDiskAccessPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureDiskAccessPrivateDnsZoneId
+      }
+      azureCognitiveServicesPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureCognitiveServicesPrivateDnsZoneId
+      }
+      azureIotHubsPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureIotHubsPrivateDnsZoneId
+      }
+      azureEventGridDomainsPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureEventGridDomainsPrivateDnsZoneId
+      }
+      azureRedisCachePrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureRedisCachePrivateDnsZoneId
+      }
+      azureAcrPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureAcrPrivateDnsZoneId
+      }
+      azureEventHubNamespacePrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureEventHubNamespacePrivateDnsZoneId
+      }
+      azureMachineLearningWorkspacePrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureMachineLearningWorkspacePrivateDnsZoneId
+      }
+      azureServiceBusNamespacePrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureServiceBusNamespacePrivateDnsZoneId
+      }
+      azureCognitiveSearchPrivateDnsZoneId: {
+        value: varPrivateDnsZonesFinalResourceIds.azureCognitiveSearchPrivateDnsZoneId
+      }
+    }
+    parPolicyAssignmentIdentityType: varPolicyAssignmentDeployPrivateDNSZones.libDefinition.identity.type
+    parPolicyAssignmentEnforcementMode: varPolicyAssignmentDeployPrivateDNSZones.libDefinition.properties.enforcementMode
+    parPolicyAssignmentIdentityRoleDefinitionIds: [
+      varRbacRoleDefinitionIds.networkContributor
+    ]
+    parPolicyAssignmentIdentityRoleAssignmentsSubs: [
+      varPrivateDnsZonesResourceGroupSubscriptionId
+    ]
     parTelemetryOptOut: parTelemetryOptOut
   }
 }

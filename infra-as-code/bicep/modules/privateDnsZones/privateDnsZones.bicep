@@ -1,68 +1,86 @@
-@description('The Azure Region to deploy the resources into. Default: resourceGroup().location')
+metadata name = 'ALZ Bicep - Private DNS Zones'
+metadata description = 'Module used to set up Private DNS Zones in accordance to Azure Landing Zones'
+
+@sys.description('The Azure Region to deploy the resources into. Default: resourceGroup().location')
 param parLocation string = resourceGroup().location
 
-@description('Array of custom DNS Zones to provision in Hub Virtual Network. Default: all known private link DNS zones deployed')
+@sys.description('Array of custom DNS Zones to provision in Hub Virtual Network. Default: all known private link DNS zones deployed')
 param parPrivateDnsZones array = [
-  'privatelink.azure-automation.net'
-  'privatelink.database.windows.net'
-  'privatelink.sql.azuresynapse.net'
-  'privatelink.dev.azuresynapse.net'
-  'privatelink.azuresynapse.net'
-  'privatelink.blob.core.windows.net'
-  'privatelink.table.core.windows.net'
-  'privatelink.queue.core.windows.net'
-  'privatelink.file.core.windows.net'
-  'privatelink.web.core.windows.net'
-  'privatelink.dfs.core.windows.net'
-  'privatelink.documents.azure.com'
-  'privatelink.mongo.cosmos.azure.com'
-  'privatelink.cassandra.cosmos.azure.com'
-  'privatelink.gremlin.cosmos.azure.com'
-  'privatelink.table.cosmos.azure.com'
-  'privatelink.${toLower(parLocation)}.batch.azure.com'
-  'privatelink.postgres.database.azure.com'
-  'privatelink.mysql.database.azure.com'
-  'privatelink.mariadb.database.azure.com'
-  'privatelink.vaultcore.azure.net'
-  'privatelink.managedhsm.azure.net'
   'privatelink.${toLower(parLocation)}.azmk8s.io'
-  'privatelink.siterecovery.windowsazure.com'
-  'privatelink.servicebus.windows.net'
-  'privatelink.azure-devices.net'
-  'privatelink.eventgrid.azure.net'
-  'privatelink.azurewebsites.net'
-  'privatelink.api.azureml.ms'
-  'privatelink.notebooks.azure.net'
-  'privatelink.service.signalr.net'
-  'privatelink.monitor.azure.com'
-  'privatelink.oms.opinsights.azure.com'
-  'privatelink.ods.opinsights.azure.com'
-  'privatelink.agentsvc.azure-automation.net'
-  'privatelink.afs.azure.net'
-  'privatelink.datafactory.azure.net'
+  'privatelink.${toLower(parLocation)}.batch.azure.com'
+  'privatelink.${toLower(parLocation)}.kusto.windows.net'
   'privatelink.adf.azure.com'
-  'privatelink.redis.cache.windows.net'
-  'privatelink.redisenterprise.cache.azure.net'
+  'privatelink.afs.azure.net'
+  'privatelink.agentsvc.azure-automation.net'
+  'privatelink.analysis.windows.net'
+  'privatelink.api.azureml.ms'
+  'privatelink.azconfig.io'
+  'privatelink.azure-api.net'
+  'privatelink.azure-automation.net'
+  'privatelink.azurecr.io'
+  'privatelink.azure-devices.net'
+  'privatelink.azure-devices-provisioning.net'
+  'privatelink.azurehdinsight.net'
+  'privatelink.azurehealthcareapis.com'
+  'privatelink.azurestaticapps.net'
+  'privatelink.azuresynapse.net'
+  'privatelink.azurewebsites.net'
+  'privatelink.batch.azure.com'
+  'privatelink.blob.core.windows.net'
+  'privatelink.cassandra.cosmos.azure.com'
+  'privatelink.cognitiveservices.azure.com'
+  'privatelink.database.windows.net'
+  'privatelink.datafactory.azure.net'
+  'privatelink.dev.azuresynapse.net'
+  'privatelink.dfs.core.windows.net'
+  'privatelink.dicom.azurehealthcareapis.com'
+  'privatelink.digitaltwins.azure.net'
+  'privatelink.directline.botframework.com'
+  'privatelink.documents.azure.com'
+  'privatelink.eventgrid.azure.net'
+  'privatelink.file.core.windows.net'
+  'privatelink.gremlin.cosmos.azure.com'
+  'privatelink.guestconfiguration.azure.com'
+  'privatelink.his.arc.azure.com'
+  'privatelink.kubernetesconfiguration.azure.com'
+  'privatelink.managedhsm.azure.net'
+  'privatelink.mariadb.database.azure.com'
+  'privatelink.media.azure.net'
+  'privatelink.mongo.cosmos.azure.com'
+  'privatelink.monitor.azure.com'
+  'privatelink.mysql.database.azure.com'
+  'privatelink.notebooks.azure.net'
+  'privatelink.ods.opinsights.azure.com'
+  'privatelink.oms.opinsights.azure.com'
+  'privatelink.pbidedicated.windows.net'
+  'privatelink.postgres.database.azure.com'
+  'privatelink.prod.migration.windowsazure.com'
   'privatelink.purview.azure.com'
   'privatelink.purviewstudio.azure.com'
-  'privatelink.digitaltwins.azure.net'
-  'privatelink.azconfig.io'
-  'privatelink.cognitiveservices.azure.com'
-  'privatelink.azurecr.io'
+  'privatelink.queue.core.windows.net'
+  'privatelink.redis.cache.windows.net'
+  'privatelink.redisenterprise.cache.azure.net'
   'privatelink.search.windows.net'
-  'privatelink.azurehdinsight.net'
-  'privatelink.media.azure.net'
-  'privatelink.his.arc.azure.com'
-  'privatelink.guestconfiguration.azure.com'
+  'privatelink.service.signalr.net'
+  'privatelink.servicebus.windows.net'
+  'privatelink.siterecovery.windowsazure.com'
+  'privatelink.sql.azuresynapse.net'
+  'privatelink.table.core.windows.net'
+  'privatelink.table.cosmos.azure.com'
+  'privatelink.tip1.powerquery.microsoft.com'
+  'privatelink.token.botframework.com'
+  'privatelink.vaultcore.azure.net'
+  'privatelink.web.core.windows.net'
+  'privatelink.webpubsub.azure.com'
 ]
 
-@description('Tags you would like to be applied to all resources in this module. Default: empty object')
+@sys.description('Tags you would like to be applied to all resources in this module. Default: empty object')
 param parTags object = {}
 
-@description('Resource ID of VNet for Private DNS Zone VNet Links. Default: Empty String')
+@sys.description('Resource ID of VNet for Private DNS Zone VNet Links. Default: Empty String')
 param parVirtualNetworkIdToLink string = ''
 
-@description('Set Parameter to true to Opt-out of deployment telemetry. Default: false')
+@sys.description('Set Parameter to true to Opt-out of deployment telemetry. Default: false')
 param parTelemetryOptOut bool = false
 
 var varAzBackupGeoCodes = {
@@ -136,7 +154,7 @@ var varAzBackupGeoCodes = {
 }
 
 // If region entered in parLocation and matches a lookup to varAzBackupGeoCodes then insert Azure Backup Private DNS Zone with appropriate geo code inserted alongside zones in parPrivateDnsZones. If not just return parPrivateDnsZones
-var varPrivateDnsZonesMerge = contains(varAzBackupGeoCodes, parLocation) ? union(parPrivateDnsZones, ['privatelink.${varAzBackupGeoCodes[toLower(parLocation)]}.backup.windowsazure.com']) : parPrivateDnsZones
+var varPrivateDnsZonesMerge = contains(varAzBackupGeoCodes, parLocation) ? union(parPrivateDnsZones, [ 'privatelink.${varAzBackupGeoCodes[toLower(parLocation)]}.backup.windowsazure.com' ]) : parPrivateDnsZones
 
 // Customer Usage Attribution Id
 var varCuaid = '981733dd-3195-4fda-a4ee-605ab959edb6'

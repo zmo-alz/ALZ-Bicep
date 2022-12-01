@@ -10,12 +10,13 @@ Module deploys the following resources:
 - Azure Firewall
 - Azure Firewall Policies
 - Private DNS Zones
-- DDos Standard Plan
+- DDoS Network Protection Plan
 - Bastion
 - Route Table
 
 ## Parameters
 
+<<<<<<< HEAD
 The module requires the following inputs:
 
  | Parameter                       | Type   | Default                                                                                                                    | Description                                                                                                                                                                                                                                                            | Requirement                   | Example                                        |
@@ -50,6 +51,9 @@ The module requires the following inputs:
  | parAzFirewallDnsProxyEnabled    | bool   | true                                                                                                                       | Switch which enables DNS Proxy to be enabled on the Azure Firewall                                                                                                                                                                                                     | None                          | true                                           |
  | parDisableBgpRoutePropagation   | bool   | false                                                                                                                      | Switch which allows BGP Propagation to be disabled on the route tables                                                                                                                                                                                                 | None                          | false                                          |
  | parTelemetryOptOut              | bool   | false                                                                                                                      | Set Parameter to true to Opt-out of deployment telemetry                                                                                                                                                                                                               | None                          | false                                          |
+=======
+- [Parameters for Azure Commercial Cloud](generateddocs/hubNetworking.bicep.md)
+>>>>>>> c3403f1a5a8e2feee8f378874e9edd583ff76ed5
 
 > NOTE: When deploying using the `parameters/hubNetworking.parameters.all.json` you must update the `parPrivateDnsZones` parameter by replacing the `xxxxxx` placeholders with the deployment region or geo code, for Azure Backup. Failure to do so will cause these services to be unreachable over private endpoints.
 > For example, if deploying to East US the following zone entries:

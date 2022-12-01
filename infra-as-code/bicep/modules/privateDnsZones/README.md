@@ -9,6 +9,7 @@ Module deploys the following resources:
 
 ## Parameters
 
+<<<<<<< HEAD
 The module requires the following inputs:
 
  | Parameter                 | Type   | Default                                                                                                          | Description                                                                                                                                    | Requirement                              | Example                                                                                                                                                |
@@ -18,6 +19,9 @@ The module requires the following inputs:
  | parTags                   | object | Empty object `{}`                                                                                                   | List of tags (Key Value Pairs) to be applied to resources                                                                                      | None                                     | environment: 'development'                                                                                                                             |
  | parVirtualNetworkIdToLink | string | Empty String                                                                                                     | Resource ID of VNet for Private DNS Zone VNet Links                                                                                            | Valid Resource ID of the Virtual Network | /subscriptions/[your platform connectivity subscription ID]/resourceGroups/Hub_PrivateDNS_POC/providers/Microsoft.Network/virtualNetworks/alz-hub-norwayeast |
  | parTelemetryOptOut        | bool   | false                                                                                                            | Set Parameter to true to Opt-out of deployment telemetry                                                                                       | None                                     | false                                                                                                                                                  |
+=======
+- [Parameters for Azure Commercial Cloud](generateddocs/privateDnsZones.bicep.md)
+>>>>>>> c3403f1a5a8e2feee8f378874e9edd583ff76ed5
 
 ## DNS Zones
 

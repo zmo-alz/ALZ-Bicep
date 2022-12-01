@@ -8,6 +8,7 @@ Module deploys the following resources:
 
 ## Parameters
 
+<<<<<<< HEAD
 The module requires the following inputs:
 
  | Parameter                | Type   | Default | Description                                              | Requirement                                  | Example |
@@ -16,6 +17,9 @@ The module requires the following inputs:
  | parResourceGroupName     | string | None    | Name of Resource Group to create in the specified region | 2-64 char, letters, numbers, and underscores | Hub     |
  | parTags                      | object | Empty object `{}`          | Array of Tags to be applied to Resource Group   | None        | `{"key": "value"}`                                                                                                                                    |
  | parTelemetryOptOut       | bool   | `false` | Set Parameter to true to Opt-out of deployment telemetry | none                                         | `false` |
+=======
+- [Parameters for Azure Commercial Cloud](generateddocs/resourceGroup.bicep.md)
+>>>>>>> c3403f1a5a8e2feee8f378874e9edd583ff76ed5
 
 ## Outputs
 

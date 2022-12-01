@@ -15,6 +15,7 @@ Module deploys the following resources:
 
 ## Parameters
 
+<<<<<<< HEAD
 The module requires the following inputs:
 
  | Parameter                        | Type   | Default | Description                                                     | Requirement                                  | Example         |
@@ -27,6 +28,9 @@ The module requires the following inputs:
  | parAllowGatewayTransit           | bool   | false   | Switch to enable Gateway Transit                                | None                                         | false           |
  | parUseRemoteGateways             | bool   | false   | Switch to enable Remote Gateway                                 | None                                         | false           |
  | parTelemetryOptOut               | bool   | false   | Set Parameter to true to Opt-out of deployment telemetry        | None                                         | false           |
+=======
+- [Parameters for Azure Commercial Cloud](generateddocs/vnetPeering.bicep.md)
+>>>>>>> c3403f1a5a8e2feee8f378874e9edd583ff76ed5
 
 ## Outputs
 

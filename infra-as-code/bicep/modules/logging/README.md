@@ -23,6 +23,7 @@ The module will deploy the following Log Analytics Workspace solutions by defaul
 
 ## Parameters
 
+<<<<<<< HEAD
 The module requires the following required input parameters.
 
 | Parameter                                  | Type            | Description                                                 | Requirement                                                                                                                                                                                                                                                            | Example                                                                                                      |
@@ -51,6 +52,9 @@ The module will generate the following outputs:
 | outLogAnalyticsSolutions     | array | ["AgentHealthAssessment", "AntiMalware","AzureActivity", "ChangeTracking", "Security", "SecurityInsights", "ServiceMap", "SQLAdvancedThreatProtection", "SQLVulnerabilityAssessment", "SQLAssessment", "Updates", "VMInsights"] |
 | outAutomationAccountName     | string          | alz-automation-account                                                                                                                                                                                                          |
 | outAutomationAccountId       | string          | /subscriptions/4f9f8765-911a-4a6d-af60-4bc0473268c0/resourceGroups/alz-logging/providers/Microsoft.Automation/automationAccounts/alz-automation-account                                                                         |
+=======
+- [Parameters for Azure Commercial Cloud](generateddocs/logging.bicep.md)
+>>>>>>> c3403f1a5a8e2feee8f378874e9edd583ff76ed5
 
 ## Deployment
 

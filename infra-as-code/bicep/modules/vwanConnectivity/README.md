@@ -10,11 +10,12 @@ Module deploys the following resources which can be configured by parameters:
 - ExpressRoute Gateway
 - Azure Firewall
 - Azure Firewall policy
-- DDoS Standard Plan
+- DDoS Network Protection Plan
 - Private DNS Zones - Details of all the Azure Private DNS zones can be found here --> [https://docs.microsoft.com/en-us/azure/private-link/private-endpoint-dns#azure-services-dns-zone-configuration](https://docs.microsoft.com/en-us/azure/private-link/private-endpoint-dns#azure-services-dns-zone-configuration)
 
 ## Parameters
 
+<<<<<<< HEAD
 The module requires the following inputs:
 
  | Parameter                         | Type   | Default                                                                                                            | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Requirement                                      | Example                                                                                                                                  |
@@ -45,6 +46,9 @@ The module requires the following inputs:
  | parVpnGatewayScaleUnit                 | int    | 1                                                                                                                  | The scale unit for the VPN Gateway                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | None                                             | 1                                                                                                                                        |
  | parExpressRouteGatewayScaleUnit                  | int    | 1                                                                                                                  | The scale unit for the ExpressRoute Gateway                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | None                                             | 1                                                                                                                                        |
  | parTelemetryOptOut                | bool   | false                                                                                                              | Set Parameter to true to Opt-out of deployment telemetry                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | None                                             | false                                                                                                                                    |
+=======
+- [Parameters for Azure Commercial Cloud](generateddocs/vwanConnectivity.bicep.md)
+>>>>>>> c3403f1a5a8e2feee8f378874e9edd583ff76ed5
 
 > NOTE: When deploying using the `parameters/vwanConnectivity.parameters.all.json` you must update the `parPrivateDnsZones` parameter by replacing the `xxxxxx` placeholders with the deployment region. Failure to do so will cause these services to be unreachable over private endpoints.
 > For example, if deploying to East US the following zone entries:

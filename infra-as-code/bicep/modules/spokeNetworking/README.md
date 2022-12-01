@@ -30,6 +30,7 @@ Module deploys the following resources:
 
 ## Parameters
 
+<<<<<<< HEAD
 The module requires the following inputs:
 
  | Parameter                    | Type   | Default                    | Description                                                         | Requirement | Example                                                                                                                                               |
@@ -44,6 +45,9 @@ The module requires the following inputs:
  | parNextHopIpAddress          | string | Empty string `''`          | IP Address where network traffic should route to leverage DNS Proxy | None        | '192.168.50.4'                                                                                                                                        |
  | parSpokeToHubRouteTableName  | string | 'rtb-spoke-to-hub'         | Name of Route table to create for the default route of Hub.         | None        | 'rtb-spoke-to-hub '                                                                                                                                   |
  | parTelemetryOptOut           | bool   | false                      | Set Parameter to true to Opt-out of deployment telemetry            | None        | false                                                                                                                                                 |
+=======
+- [Parameters for Azure Commercial Cloud](generateddocs/spokeNetworking.bicep.md)
+>>>>>>> c3403f1a5a8e2feee8f378874e9edd583ff76ed5
 
 ## Outputs
 

@@ -8,6 +8,7 @@ Module deploys the following resources:
 
 ## Parameters
 
+<<<<<<< HEAD
 The module requires the following inputs:
 
  | Parameter             | Type   | Default                  | Description                                                                                                                        | Requirement        | Example                              |
@@ -19,6 +20,9 @@ The module requires the following inputs:
  | parAvailabilityZones  | array  | Empty Array `[]`         | Availability Zones to deploy the Public IP across. Region must support Availability Zones to use. If it does not then leave empty. | none               | `[]` or `['1']` or `['1' ,'2', '3']` |
  | parTags               | object | Empty Object `{}`                     | Tags to be appended to resource after it is created                                                                                | none               | {"Environment" : "Development"}      |
  | parTelemetryOptOut    | bool   | `false`                  | Set Parameter to true to Opt-out of deployment telemetry                                                                           | none               | `false`                              |
+=======
+- [Parameters for Azure Commercial Cloud](generateddocs/publicIp.bicep.md)
+>>>>>>> c3403f1a5a8e2feee8f378874e9edd583ff76ed5
 
 ## Outputs
 

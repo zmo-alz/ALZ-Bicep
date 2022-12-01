@@ -1,27 +1,30 @@
-@description('Prefix for the management group hierarchy. DEFAULT VALUE = alz')
+metadata name = 'ALZ Bicep - ALZ Default Policy Assignments'
+metadata description = 'This policy assignment will assign the ALZ Default Policy to management groups'
+
+@sys.description('Prefix for the management group hierarchy. DEFAULT VALUE = alz')
 @minLength(2)
 @maxLength(10)
 param parTopLevelManagementGroupPrefix string = 'alz'
 
-@description('The region where the Log Analytics Workspace & Automation Account are deployed. DEFAULT VALUE = chinaeast2')
+@sys.description('The region where the Log Analytics Workspace & Automation Account are deployed. DEFAULT VALUE = chinaeast2')
 param parLogAnalyticsWorkSpaceAndAutomationAccountLocation string = 'chinaeast2'
 
-@description('Log Analytics Workspace Resource ID. - DEFAULT VALUE: Empty String ')
+@sys.description('Log Analytics Workspace Resource ID. - DEFAULT VALUE: Empty String ')
 param parLogAnalyticsWorkspaceResourceID string = ''
 
-@description('Number of days of log retention for Log Analytics Workspace. - DEFAULT VALUE: 365')
+@sys.description('Number of days of log retention for Log Analytics Workspace. - DEFAULT VALUE: 365')
 param parLogAnalyticsWorkspaceLogRetentionInDays string = '365'
 
-@description('Automation account name. - DEFAULT VALUE: alz-automation-account')
+@sys.description('Automation account name. - DEFAULT VALUE: alz-automation-account')
 param parAutomationAccountName string = 'alz-automation-account'
 
-@description('An e-mail address that you want Microsoft Defender for Cloud alerts to be sent to.')
+@sys.description('An e-mail address that you want Microsoft Defender for Cloud alerts to be sent to.')
 param parMsDefenderForCloudEmailSecurityContact string = 'security_contact@replace_me.com'
 
-@description('ID of the DdosProtectionPlan which will be applied to the Virtual Networks. If left empty, the policy Enable-DDoS-VNET will not be assigned at connectivity or landing zone Management Groups to avoid VNET deployment issues. Default: Empty String')
+@sys.description('ID of the DdosProtectionPlan which will be applied to the Virtual Networks. If left empty, the policy Enable-DDoS-VNET will not be assigned at connectivity or landing zone Management Groups to avoid VNET deployment issues. Default: Empty String')
 param parDdosProtectionPlanId string = ''
 
-@description('Set Parameter to true to Opt-out of deployment telemetry')
+@sys.description('Set Parameter to true to Opt-out of deployment telemetry')
 param parTelemetryOptOut bool = false
 
 var varLogAnalyticsWorkspaceName = split(parLogAnalyticsWorkspaceResourceID, '/')[8]
@@ -53,7 +56,6 @@ var varModuleDeploymentNames = {
   modPolicyAssignmentIdentDeployVMBackup: take('${varDeploymentNameWrappers.basePrefix}-polAssi-deployVMBackup-ident-${varDeploymentNameWrappers.baseSuffixTenantAndManagementGroup}', 64)
   modPolicyAssignmentMgmtDeployLogAnalytics: take('${varDeploymentNameWrappers.basePrefix}-polAssi-deployLAW-mgmt-${varDeploymentNameWrappers.baseSuffixTenantAndManagementGroup}', 64)
   modPolicyAssignmentLZsDenyIPForwarding: take('${varDeploymentNameWrappers.basePrefix}-polAssi-denyIPForward-lz-${varDeploymentNameWrappers.baseSuffixTenantAndManagementGroup}', 64)
-  modPolicyAssignmentLZsDenyPublicIP: take('${varDeploymentNameWrappers.basePrefix}-polAssi-denyPublicIP-corp-${varDeploymentNameWrappers.baseSuffixTenantAndManagementGroup}', 64)
   modPolicyAssignmentLZsDenyRDPFromInternet: take('${varDeploymentNameWrappers.basePrefix}-polAssi-denyRDPFromInet-lz-${varDeploymentNameWrappers.baseSuffixTenantAndManagementGroup}', 64)
   modPolicyAssignmentLZsDenySubnetWithoutNSG: take('${varDeploymentNameWrappers.basePrefix}-polAssi-denySubnetNoNSG-lz-${varDeploymentNameWrappers.baseSuffixTenantAndManagementGroup}', 64)
   modPolicyAssignmentLZsDeployVMBackup: take('${varDeploymentNameWrappers.basePrefix}-polAssi-deployVMBackup-lz-${varDeploymentNameWrappers.baseSuffixTenantAndManagementGroup}', 64)
@@ -101,7 +103,7 @@ var varPolicyAssignmentDenyPublicEndpoints = {
 }
 
 var varPolicyAssignmentDenyPublicIP = {
-  definitionId: '${varTopLevelManagementGroupResourceID}/providers/Microsoft.Authorization/policyDefinitions/Deny-PublicIP'
+  definitionId: '/providers/Microsoft.Authorization/policyDefinitions/6c112d4e-5bc7-47ae-a041-ea2d9dccd749'
   libDefinition: loadJsonContent(('../../../policy/assignments/lib/china/policy_assignments/policy_assignment_es_deny_public_ip.tmpl.json'))
 }
 
@@ -710,22 +712,6 @@ module modPolicyAssignmentLZsDenyPublicEndpoints '../../../policy/assignments/po
     parPolicyAssignmentParameters: varPolicyAssignmentDenyPublicEndpoints.libDefinition.properties.parameters
     parPolicyAssignmentIdentityType: varPolicyAssignmentDenyPublicEndpoints.libDefinition.identity.type
     parPolicyAssignmentEnforcementMode: varPolicyAssignmentDenyPublicEndpoints.libDefinition.properties.enforcementMode
-    parTelemetryOptOut: parTelemetryOptOut
-  }
-}
-
-// Module - Policy Assignment - Deny-Public-IP
-module modPolicyAssignmentLZsDenyPublicIP '../../../policy/assignments/policyAssignmentManagementGroup.bicep' = {
-  scope: managementGroup(varManagementGroupIDs.landingZonesCorp)
-  name: varModuleDeploymentNames.modPolicyAssignmentLZsDenyPublicIP
-  params: {
-    parPolicyAssignmentDefinitionId: varPolicyAssignmentDenyPublicIP.definitionId
-    parPolicyAssignmentName: varPolicyAssignmentDenyPublicIP.libDefinition.name
-    parPolicyAssignmentDisplayName: varPolicyAssignmentDenyPublicIP.libDefinition.properties.displayName
-    parPolicyAssignmentDescription: varPolicyAssignmentDenyPublicIP.libDefinition.properties.description
-    parPolicyAssignmentParameters: varPolicyAssignmentDenyPublicIP.libDefinition.properties.parameters
-    parPolicyAssignmentIdentityType: varPolicyAssignmentDenyPublicIP.libDefinition.identity.type
-    parPolicyAssignmentEnforcementMode: varPolicyAssignmentDenyPublicIP.libDefinition.properties.enforcementMode
     parTelemetryOptOut: parTelemetryOptOut
   }
 }
