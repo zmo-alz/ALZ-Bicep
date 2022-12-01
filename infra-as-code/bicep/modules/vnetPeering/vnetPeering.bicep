@@ -23,7 +23,7 @@ param parAllowGatewayTransit bool = false
 param parUseRemoteGateways bool = false
 
 @sys.description('Set Parameter to true to Opt-out of deployment telemetry. Default: false')
-param parTelemetryOptOut bool = false
+param parTelemetryOptOut bool = true
 
 // Customer Usage Attribution Id
 var varCuaId = 'ab8e3b12-b0fa-40aa-8630-e3f7699e2142'

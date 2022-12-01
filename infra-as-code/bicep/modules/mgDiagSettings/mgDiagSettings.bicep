@@ -7,7 +7,7 @@ metadata description = 'Module used to set up Diagnostic Settings for Management
 param parLogAnalyticsWorkspaceResourceId string
 
 @sys.description('Set Parameter to true to Opt-out of deployment telemetry')
-param parTelemetryOptOut bool = false
+param parTelemetryOptOut bool = true
 
 // Customer Usage Attribution Id
 var varCuaid = '5d17f1c2-f17b-4426-9712-0cd2652c4435'

@@ -7,7 +7,7 @@ metadata description = 'This policy definition is used to deploy custom policy d
 param parTargetManagementGroupId string = 'alz'
 
 @sys.description('Set Parameter to true to Opt-out of deployment telemetry')
-param parTelemetryOptOut bool = false
+param parTelemetryOptOut bool = true
 
 var varTargetManagementGroupResourceId = tenantResourceId('Microsoft.Management/managementGroups', parTargetManagementGroupId)
 

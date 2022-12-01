@@ -29,7 +29,7 @@ param parSpokeToHubRouteTableName string = 'rtb-spoke-to-hub'
 param parTags object = {}
 
 @sys.description('Set Parameter to true to Opt-out of deployment telemetry. Default: false')
-param parTelemetryOptOut bool = false
+param parTelemetryOptOut bool = true
 
 // Customer Usage Attribution Id
 var varCuaid = '0c428583-f2a1-4448-975c-2d6262fd193a'

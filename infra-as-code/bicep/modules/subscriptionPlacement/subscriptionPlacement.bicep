@@ -10,7 +10,7 @@ param parSubscriptionIds array = []
 param parTargetManagementGroupId string
 
 @sys.description('Set Parameter to true to Opt-out of deployment telemetry. Default: false')
-param parTelemetryOptOut bool = false
+param parTelemetryOptOut bool = true
 
 // Customer Usage Attribution Id
 var varCuaid = '3dfa9e81-f0cf-4b25-858e-167937fd380b'

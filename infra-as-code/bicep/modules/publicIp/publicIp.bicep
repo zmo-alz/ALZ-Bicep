@@ -25,7 +25,7 @@ param parAvailabilityZones array = []
 param parTags object = {}
 
 @sys.description('Set Parameter to true to Opt-out of deployment telemetry. Default: false')
-param parTelemetryOptOut bool = false
+param parTelemetryOptOut bool = true
 
 // Customer Usage Attribution Id
 var varCuaid = '3f85b84c-6bad-4c42-86bf-11c233241c22'

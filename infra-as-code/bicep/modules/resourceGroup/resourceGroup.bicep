@@ -13,7 +13,7 @@ param parResourceGroupName string
 param parTags object = {}
 
 @sys.description('Set Parameter to true to Opt-out of deployment telemetry. Default: false')
-param parTelemetryOptOut bool = false
+param parTelemetryOptOut bool = true
 
 // Customer Usage Attribution Id
 var varCuaid = 'b6718c54-b49e-4748-a466-88e3d7c789c8'

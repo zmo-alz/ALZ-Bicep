@@ -233,7 +233,7 @@ param parExpressRouteGatewayConfig object = {
 param parTags object = {}
 
 @sys.description('Set Parameter to true to Opt-out of deployment telemetry. Default: false')
-param parTelemetryOptOut bool = false
+param parTelemetryOptOut bool = true
 
 var varSubnetProperties = [for subnet in parSubnets: {
   name: subnet.name

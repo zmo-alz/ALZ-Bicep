@@ -25,7 +25,7 @@ param parLandingZoneMgConfidentialEnable bool = false
 param parLandingZoneMgChildren object = {}
 
 @sys.description('Set Parameter to true to Opt-out of deployment telemetry. Default: false')
-param parTelemetryOptOut bool = false
+param parTelemetryOptOut bool = true
 
 // Platform and Child Management Groups
 var varPlatformMg = {

@@ -28,7 +28,7 @@ param parDdosProtectionPlanId string = ''
 param parPrivateDnsResourceGroupId string = ''
 
 @sys.description('Set Parameter to true to Opt-out of deployment telemetry')
-param parTelemetryOptOut bool = false
+param parTelemetryOptOut bool = true
 
 var varLogAnalyticsWorkspaceName = split(parLogAnalyticsWorkspaceResourceId, '/')[8]
 

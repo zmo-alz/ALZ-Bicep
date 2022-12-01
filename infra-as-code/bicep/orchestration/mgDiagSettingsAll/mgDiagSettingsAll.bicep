@@ -21,7 +21,7 @@ param parLandingZoneMgAlzDefaultsEnable bool = true
 param parLandingZoneMgConfidentialEnable bool = false
 
 @sys.description('Set Parameter to true to Opt-out of deployment telemetry. Default: false')
-param parTelemetryOptOut bool = false
+param parTelemetryOptOut bool = true
 
 var varMgIds = {
   intRoot: parTopLevelManagementGroupPrefix

@@ -10,7 +10,7 @@ param parVirtualWanHubResourceId string
 param parRemoteVirtualNetworkResourceId string
 
 @sys.description('Set Parameter to true to Opt-out of deployment telemetry. Default: false')
-param parTelemetryOptOut bool = false
+param parTelemetryOptOut bool = true
 
 // Customer Usage Attribution Id
 var varCuaid = '7b5e6db2-1e8c-4b01-8eee-e1830073a63d'

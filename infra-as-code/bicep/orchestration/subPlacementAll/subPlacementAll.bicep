@@ -48,7 +48,7 @@ param parDecommissionedMgSubs array = []
 param parSandboxMgSubs array = []
 
 @sys.description('Set Parameter to true to Opt-out of deployment telemetry. Default: false')
-param parTelemetryOptOut bool = false
+param parTelemetryOptOut bool = true
 
 var varMgIds = {
   intRoot: parTopLevelManagementGroupPrefix

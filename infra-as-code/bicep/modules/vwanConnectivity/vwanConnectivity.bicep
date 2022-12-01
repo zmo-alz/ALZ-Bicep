@@ -153,7 +153,7 @@ param parVirtualNetworkIdToLink string = ''
 param parTags object = {}
 
 @sys.description('Set Parameter to true to Opt-out of deployment telemetry')
-param parTelemetryOptOut bool = false
+param parTelemetryOptOut bool = true
 
 // Customer Usage Attribution Id
 var varCuaid = '7f94f23b-7a59-4a5c-9a8d-2a253a566f61'

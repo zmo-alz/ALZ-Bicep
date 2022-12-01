@@ -20,7 +20,7 @@ param parPeeredVnetSubscriptionId string = ''
 param parTags object = {}
 
 @sys.description('Set Parameter to true to Opt-out of deployment telemetry. Default: false')
-param parTelemetryOptOut bool = false
+param parTelemetryOptOut bool = true
 
 // Subscription Module Parameters
 @sys.description('The Management Group Id to place the subscription in. Default: Empty String')

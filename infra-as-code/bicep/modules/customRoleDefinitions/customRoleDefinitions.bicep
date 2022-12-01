@@ -7,7 +7,7 @@ metadata description ='Custom Role Definitions for ALZ Bicep'
 param parAssignableScopeManagementGroupId string = 'alz'
 
 @sys.description('Set Parameter to true to Opt-out of deployment telemetry. Default: false')
-param parTelemetryOptOut bool = false
+param parTelemetryOptOut bool = true
 
 // Customer Usage Attribution Id
 var varCuaid = '032d0904-3d50-45ef-a6c1-baa9d82e23ff'
