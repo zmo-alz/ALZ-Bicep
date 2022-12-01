@@ -6,25 +6,8 @@ If you wish to add your own additional Azure Policy Assignments please review [H
 
 ## Parameters
 
-<<<<<<< HEAD
-> Please use the scroll horizontal scroll bar at the bottom of this table to scroll along to see the other columns!
-
-The module requires the following inputs:
-
- | Parameter                                            | Description                                                                                                                                                                                                                      | Requirement | Example                                                                                                                                               | Default Value                     |
- | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- |
- | parTopLevelManagementGroupPrefix                     | Prefix for the management group hierarchy.                                                                                                                                                                                       | Yes         | `alz`                                                                                                                                                 | `alz`                             |
- | parLogAnalyticsWorkSpaceAndAutomationAccountLocation | The region where the Log Analytics Workspace & Automation Account are deployed.                                                                                                                                                  | Yes         | `norwayeast`                                                                                                                                              | `norwayeast`                          |
- | parLogAnalyticsWorkspaceResourceId                   | Log Analytics Workspace Resource ID                                                                                                                                                                                              | Yes         | `/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/alz-logging/providers/Microsoft.OperationalInsights/workspaces/alz-log-analytics` | None                              |
- | parLogAnalyticsWorkspaceLogRetentionInDays           | Number of days of log retention for Log Analytics Workspace                                                                                                                                                                      | Yes         | `365`                                                                                                                                                 | `365`                             |
- | parAutomationAccountName                             | Automation Account name                                                                                                                                                                                                          | Yes         | `alz-automation-account`                                                                                                                              | `alz-automation-account`          |
- | parMsDefenderForCloudEmailSecurityContact            | An e-mail address that you want Microsoft Defender for Cloud alerts to be sent to.                                                                                                                                               | Yes         | `security_contact@replace_me.com`                                                                                                                     | `security_contact@replace_me.com` |
- | parDdosProtectionPlanId                              | ID of the DDoS Protection Plan which will be applied to the Virtual Networks. If left empty, the policy Enable-DDoS-VNET will not be assigned at connectivity or landing zone Management Groups to avoid VNET deployment issues. | Yes         | `/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/Hub_Networking_POC/providers/Microsoft.Network/ddosProtectionPlans/alz-ddos-plan` | (empty string)                    |
- | parTelemetryOptOut                                   | Set Parameter to true to Opt-out of deployment telemetry                                                                                                                                                                         | Yes         | `false`                                                                                                                                               | `false`                           |
-=======
 - [Parameters for Azure Commercial Cloud](generateddocs/alzDefaultPolicyAssignments.bicep.md)
 - [Parameters for Azure Commercial Cloud](generateddocs/mc-alzDefaultPolicyAssignments.bicep.md)
->>>>>>> c3403f1a5a8e2feee8f378874e9edd583ff76ed5
 
 ## Outputs
 
@@ -45,7 +28,7 @@ The module does not generate any outputs.
 
 dateYMD=$(date +%Y%m%dT%H%M%S%NZ)
 NAME="alz-alzPolicyAssignmentDefaults-${dateYMD}"
-LOCATION="norwayeast"
+LOCATION="eastus"
 MGID="alz"
 TEMPLATEFILE="infra-as-code/bicep/modules/policy/assignments/alzDefaults/alzDefaultPolicyAssignments.bicep"
 PARAMETERS="@infra-as-code/bicep/modules/policy/assignments/alzDefaults/parameters/alzDefaultPolicyAssignments.parameters.all.json"
@@ -73,7 +56,7 @@ az deployment mg create --name ${NAME:0:63} --location $LOCATION --management-gr
 
 $inputObject = @{
   DeploymentName        = 'alz-alzPolicyAssignmentDefaultsDeployment-{0}' -f (-join (Get-Date -Format 'yyyyMMddTHHMMssffffZ')[0..63])
-  Location              = 'norwayeast'
+  Location              = 'eastus'
   ManagementGroupId     = 'alz'
   TemplateFile          = "infra-as-code/bicep/modules/policy/assignments/alzDefaults/alzDefaultPolicyAssignments.bicep"
   TemplateParameterFile = 'infra-as-code/bicep/modules/policy/assignments/alzDefaults/parameters/alzDefaultPolicyAssignments.parameters.all.json'

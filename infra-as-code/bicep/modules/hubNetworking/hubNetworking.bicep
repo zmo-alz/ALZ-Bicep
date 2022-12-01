@@ -37,15 +37,10 @@ param parDnsServerIps array = []
   'Basic'
   'Standard'
 ])
-param parPublicIpSku string = 'Basic'
+param parPublicIpSku string = 'Standard'
 
-<<<<<<< HEAD
-@description('Switch to enable/disable Azure Bastion deployment. Default: true')
-param parAzBastionEnabled bool = false
-=======
 @sys.description('Switch to enable/disable Azure Bastion deployment. Default: true')
 param parAzBastionEnabled bool = true
->>>>>>> c3403f1a5a8e2feee8f378874e9edd583ff76ed5
 
 @sys.description('Name Associated with Bastion Service:  Default: {parCompanyPrefix}-bastion')
 param parAzBastionName string = '${parCompanyPrefix}-bastion'
@@ -56,13 +51,8 @@ param parAzBastionSku string = 'Standard'
 @sys.description('NSG Name for Azure Bastion Subnet NSG. Default: nsg-AzureBastionSubnet')
 param parAzBastionNsgName string = 'nsg-AzureBastionSubnet'
 
-<<<<<<< HEAD
-@description('Switch to enable/disable DDoS Standard deployment. Default: true')
-param parDdosEnabled bool = false
-=======
 @sys.description('Switch to enable/disable DDoS Network Protection deployment. Default: true')
 param parDdosEnabled bool = true
->>>>>>> c3403f1a5a8e2feee8f378874e9edd583ff76ed5
 
 @sys.description('DDoS Plan Name. Default: {parCompanyPrefix}-ddos-plan')
 param parDdosPlanName string = '${parCompanyPrefix}-ddos-plan'

@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "parLocation": {
-      "value": "norwayeast"
+      "value": "eastus"
     },
     "parCompanyPrefix": {
       "value": "alz"
@@ -30,25 +30,25 @@
       "value": true
     },
     "parVirtualWanName": {
-      "value": "alz-vwan-norwayeast"
+      "value": "alz-vwan-eastus"
     },
     "parVirtualWanHubName": {
-      "value": "alz-vhub-norwayeast"
+      "value": "alz-vhub-eastus"
     },
     "parVpnGatewayName": {
-      "value": "alz-vpngw-norwayeast"
+      "value": "alz-vpngw-eastus"
     },
     "parExpressRouteGatewayName": {
-      "value": "alz-ergw-norwayeast"
+      "value": "alz-ergw-eastus"
     },
     "parAzFirewallName": {
-      "value": "alz-fw-norwayeast"
+      "value": "alz-fw-eastus"
     },
     "parAzFirewallAvailabilityZones": {
       "value": []
     },
     "parAzFirewallPoliciesName": {
-      "value": "alz-azfwpolicy-norwayeast"
+      "value": "alz-azfwpolicy-eastus"
     },
     "parVpnGatewayScaleUnit": {
       "value": 1
@@ -123,15 +123,6 @@
         "privatelink.redis.cache.windows.net",
         "privatelink.redisenterprise.cache.azure.net",
         "privatelink.search.windows.net",
-<<<<<<< HEAD
-        "privatelink.azurehdinsight.net",
-        "privatelink.media.azure.net",
-        "privatelink.his.arc.azure.com",
-        "privatelink.guestconfiguration.azure.com",
-        "privatelink.xxxxxx.azmk8s.io", // Replace xxxxxx with target region (i.e. norwayeast)
-        "privatelink.xxxxxx.backup.windowsazure.com", // Replace xxxxxx with target region (i.e. norwayeast)
-        "privatelink.xxxxxx.batch.azure.com" // Replace xxxxxx with target region (i.e. norwayeast),
-=======
         "privatelink.service.signalr.net",
         "privatelink.servicebus.windows.net",
         "privatelink.siterecovery.windowsazure.com",
@@ -143,11 +134,10 @@
         "privatelink.vaultcore.azure.net",
         "privatelink.web.core.windows.net",
         "privatelink.webpubsub.azure.com"
->>>>>>> c3403f1a5a8e2feee8f378874e9edd583ff76ed5
       ]
     },
     "parVirtualNetworkIdToLink": {
-      "value": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/HUB_Networking_POC/providers/Microsoft.Network/virtualNetworks/alz-hub-norwayeast"
+      "value": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/HUB_Networking_POC/providers/Microsoft.Network/virtualNetworks/alz-hub-eastus"
     },
     "parTags": {
       "value": {

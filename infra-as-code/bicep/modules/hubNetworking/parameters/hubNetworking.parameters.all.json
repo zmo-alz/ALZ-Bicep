@@ -3,13 +3,13 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "parLocation": {
-      "value": "norwayeast"
+      "value": "eastus"
     },
     "parCompanyPrefix": {
       "value": "alz"
     },
     "parHubNetworkName": {
-      "value": "alz-hub-norwayeast"
+      "value": "alz-hub-eastus"
     },
     "parHubNetworkAddressPrefix": {
       "value": "10.20.0.0/16"
@@ -37,7 +37,7 @@
       "value": "Standard"
     },
     "parAzBastionEnabled": {
-      "value": false
+      "value": true
     },
     "parAzBastionName": {
       "value": "alz-bastion"
@@ -49,7 +49,7 @@
       "value": "nsg-AzureBastionSubnet"
     },
     "parDdosEnabled": {
-      "value": false
+      "value": true
     },
     "parDdosPlanName": {
       "value": "alz-ddos-plan"
@@ -58,10 +58,10 @@
       "value": true
     },
     "parAzFirewallName": {
-      "value": "alz-azfw-norwayeast"
+      "value": "alz-azfw-eastus"
     },
     "parAzFirewallPoliciesName": {
-      "value": "alz-azfwpolicy-norwayeast"
+      "value": "alz-azfwpolicy-eastus"
     },
     "parAzFirewallTier": {
       "value": "Standard"
@@ -89,51 +89,10 @@
     },
     "parPrivateDnsZones": {
       "value": [
-<<<<<<< HEAD
-        "privatelink.azure-automation.net",
-        "privatelink.database.windows.net",
-        "privatelink.sql.azuresynapse.net",
-        "privatelink.dev.azuresynapse.net",
-        "privatelink.azuresynapse.net",
-        "privatelink.blob.core.windows.net",
-        "privatelink.table.core.windows.net",
-        "privatelink.queue.core.windows.net",
-        "privatelink.file.core.windows.net",
-        "privatelink.web.core.windows.net",
-        "privatelink.dfs.core.windows.net",
-        "privatelink.documents.azure.com",
-        "privatelink.mongo.cosmos.azure.com",
-        "privatelink.cassandra.cosmos.azure.com",
-        "privatelink.gremlin.cosmos.azure.com",
-        "privatelink.table.cosmos.azure.com",
-        "privatelink.xxxxxx.batch.azure.com", // Replace xxxxxx with target region (i.e. norwayeast)
-        "privatelink.postgres.database.azure.com",
-        "privatelink.mysql.database.azure.com",
-        "privatelink.mariadb.database.azure.com",
-        "privatelink.vaultcore.azure.net",
-        "privatelink.managedhsm.azure.net",
-        "privatelink.xxxxxx.azmk8s.io", // Replace xxxxxx with target region (i.e. norwayeast)
-        "privatelink.xxxxxx.backup.windowsazure.com", // Replace xxxxxx with target region geo code (i.e. for norwayeast, the geo code is eus)
-        "privatelink.siterecovery.windowsazure.com",
-        "privatelink.servicebus.windows.net",
-        "privatelink.azure-devices.net",
-        "privatelink.eventgrid.azure.net",
-        "privatelink.azurewebsites.net",
-        "privatelink.api.azureml.ms",
-        "privatelink.notebooks.azure.net",
-        "privatelink.service.signalr.net",
-        "privatelink.monitor.azure.com",
-        "privatelink.oms.opinsights.azure.com",
-        "privatelink.ods.opinsights.azure.com",
-        "privatelink.agentsvc.azure-automation.net",
-        "privatelink.afs.azure.net",
-        "privatelink.datafactory.azure.net",
-=======
         "privatelink.xxxxxx.azmk8s.io", // Replace xxxxxx with target region (i.e. eastus)
         "privatelink.xxxxxx.batch.azure.com", // Replace xxxxxx with target region (i.e. eastus)
         "privatelink.xxxxxx.kusto.windows.net", // Replace xxxxxx with target region (i.e. eastus)
         "privatelink.xxxxxx.backup.windowsazure.com", // Replace xxxxxx with target region geo code (i.e. for eastus, the geo code is eus)
->>>>>>> c3403f1a5a8e2feee8f378874e9edd583ff76ed5
         "privatelink.adf.azure.com",
         "privatelink.afs.azure.net",
         "privatelink.agentsvc.azure-automation.net",

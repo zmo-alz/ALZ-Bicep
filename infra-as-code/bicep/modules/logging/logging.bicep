@@ -70,13 +70,8 @@ param parAutomationAccountTags object = parTags
 @sys.description('Tags you would like to be applied to Log Analytics Workspace. Default: parTags')
 param parLogAnalyticsWorkspaceTags object = parTags
 
-<<<<<<< HEAD
-@description('Set Parameter to true to Opt-out of deployment telemetry')
-param parTelemetryOptOut bool = true
-=======
 @sys.description('Set Parameter to true to Opt-out of deployment telemetry')
 param parTelemetryOptOut bool = false
->>>>>>> c3403f1a5a8e2feee8f378874e9edd583ff76ed5
 
 // Customer Usage Attribution Id
 var varCuaid = 'f8087c67-cc41-46b2-994d-66e4b661860d'
