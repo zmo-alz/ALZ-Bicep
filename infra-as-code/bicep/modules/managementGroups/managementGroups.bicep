@@ -15,10 +15,10 @@ param parTopLevelManagementGroupDisplayName string = 'Azure Landing Zones'
 @sys.description('Optional parent for Management Group hierarchy, used as intermediate root Management Group parent, if specified. If empty, default, will deploy beneath Tenant Root Management Group. Default: Empty String')
 param parTopLevelManagementGroupParentId string = ''
 
-@sys.description('Deploys Corp & Online Management Groups beneath Landing Zones Management Group if set to true. Default: true')
+@sys.description('Deploys internal & native Management Groups beneath Landing Zones Management Group if set to true. Default: true')
 param parLandingZoneMgAlzDefaultsEnable bool = true
 
-@sys.description('Deploys Confidential Corp & Confidential Online Management Groups beneath Landing Zones Management Group if set to true. Default: false')
+@sys.description('Deploys Confidential internal & Confidential native Management Groups beneath Landing Zones Management Group if set to true. Default: false')
 param parLandingZoneMgConfidentialEnable bool = false
 
 @sys.description('Dictionary Object to allow additional or different child Management Groups of Landing Zones Management Group to be deployed. Default: Empty Object')
@@ -56,21 +56,21 @@ var varLandingZoneMg = {
 
 // Used if parLandingZoneMgAlzDefaultsEnable == true
 var varLandingZoneMgChildrenAlzDefault = {
-  corp: {
-    displayName: 'Corp'
+  internal: {
+    displayName: 'Internal'
   }
-  online: {
-    displayName: 'Online'
+  native: {
+    displayName: 'Native'
   }
 }
 
 // Used if parLandingZoneMgConfidentialEnable == true
 var varLandingZoneMgChildrenConfidential = {
-  'confidential-corp': {
-    displayName: 'Confidential Corp'
+  'confidential-internal': {
+    displayName: 'Confidential Internal'
   }
-  'confidential-online': {
-    displayName: 'Confidential Online'
+  'confidential-native': {
+    displayName: 'Confidential Native'
   }
 }
 

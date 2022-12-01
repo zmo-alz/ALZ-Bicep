@@ -14,10 +14,10 @@ param parLandingZoneMgChildren array = []
 @sys.description('Log Analytics Workspace Resource ID.')
 param parLogAnalyticsWorkspaceResourceId string
 
-@sys.description('Deploys Corp & Online Management Groups beneath Landing Zones Management Group if set to true. Default: true')
+@sys.description('Deploys internal & native Management Groups beneath Landing Zones Management Group if set to true. Default: true')
 param parLandingZoneMgAlzDefaultsEnable bool = true
 
-@sys.description('Deploys Confidential Corp & Confidential Online Management Groups beneath Landing Zones Management Group if set to true. Default: false')
+@sys.description('Deploys Confidential internal & Confidential native Management Groups beneath Landing Zones Management Group if set to true. Default: false')
 param parLandingZoneMgConfidentialEnable bool = false
 
 @sys.description('Set Parameter to true to Opt-out of deployment telemetry. Default: false')
@@ -36,14 +36,14 @@ var varMgIds = {
 
 // Used if parLandingZoneMgAlzDefaultsEnable == true
 var varLandingZoneMgChildrenAlzDefault = {
-  landingZonesCorp: '${parTopLevelManagementGroupPrefix}-landingzones-corp'
-  landingZonesOnline: '${parTopLevelManagementGroupPrefix}-landingzones-online'
+  landingZonesinternal: '${parTopLevelManagementGroupPrefix}-landingzones-internal'
+  landingZonesnative: '${parTopLevelManagementGroupPrefix}-landingzones-native'
 }
 
 // Used if parLandingZoneMgConfidentialEnable == true
 var varLandingZoneMgChildrenConfidential = {
-  landingZonesConfidentialCorp: '${parTopLevelManagementGroupPrefix}-landingzones-confidential-corp'
-  landingZonesConfidentialOnline: '${parTopLevelManagementGroupPrefix}-landingzones-confidential-online'
+  landingZonesConfidentialinternal: '${parTopLevelManagementGroupPrefix}-landingzones-confidential-internal'
+  landingZonesConfidentialnative: '${parTopLevelManagementGroupPrefix}-landingzones-confidential-native'
 }
 
 // Used if parLandingZoneMgConfidentialEnable not empty

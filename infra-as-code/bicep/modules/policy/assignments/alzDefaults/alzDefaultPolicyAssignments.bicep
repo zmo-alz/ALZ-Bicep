@@ -24,7 +24,7 @@ param parMsDefenderForCloudEmailSecurityContact string = 'security_contact@repla
 @sys.description('ID of the DdosProtectionPlan which will be applied to the Virtual Networks. If left empty, the policy Enable-DDoS-VNET will not be assigned at connectivity or landing zone Management Groups to avoid VNET deployment issues. Default: Empty String')
 param parDdosProtectionPlanId string = ''
 
-@sys.description('Resource ID of the Resource Group that conatin the Private DNS Zones. If left empty, the policy Deploy-Private-DNS-Zones will not be assigned to the corp Management Group. Default: Empty String')
+@sys.description('Resource ID of the Resource Group that conatin the Private DNS Zones. If left empty, the policy Deploy-Private-DNS-Zones will not be assigned to the internal Management Group. Default: Empty String')
 param parPrivateDnsResourceGroupId string = ''
 
 @sys.description('Set Parameter to true to Opt-out of deployment telemetry')
@@ -71,11 +71,11 @@ var varModuleDeploymentNames = {
   modPolicyAssignmentLzsEnforceTlsSsl: take('${varDeploymentNameWrappers.basePrefix}-polAssi-enforceTLSSSL-lz-${varDeploymentNameWrappers.baseSuffixTenantAndManagementGroup}', 64)
   modPolicyAssignmentLzsDeploySqlDbAuditing: take('${varDeploymentNameWrappers.basePrefix}-polAssi-deploySQLDBAudit-lz-${varDeploymentNameWrappers.baseSuffixTenantAndManagementGroup}', 64)
   modPolicyAssignmentLzsDeploySqlThreat: take('${varDeploymentNameWrappers.basePrefix}-polAssi-deploySQLThreat-lz-${varDeploymentNameWrappers.baseSuffixTenantAndManagementGroup}', 64)
-  modPolicyAssignmentLzsDenyPublicEndpoints: take('${varDeploymentNameWrappers.basePrefix}-polAssi-denyPublicEndpoints-corp-${varDeploymentNameWrappers.baseSuffixTenantAndManagementGroup}', 64)
-  modPolicyAssignmentLzsDeployPrivateDnsZones: take('${varDeploymentNameWrappers.basePrefix}-polAssi-deployPrivateDNS-corp-${varDeploymentNameWrappers.baseSuffixTenantAndManagementGroup}', 64)
-  modPolicyAssignmentLzsDenyDataBPip: take('${varDeploymentNameWrappers.basePrefix}-polAssi-denyDataBPip-corp-${varDeploymentNameWrappers.baseSuffixTenantAndManagementGroup}', 64)
-  modPolicyAssignmentLzsDenyDataBSku: take('${varDeploymentNameWrappers.basePrefix}-polAssi-denyDataBSku-corp-${varDeploymentNameWrappers.baseSuffixTenantAndManagementGroup}', 64)
-  modPolicyAssignmentLzsDenyDataBVnet: take('${varDeploymentNameWrappers.basePrefix}-polAssi-denyDataBVnet-corp-${varDeploymentNameWrappers.baseSuffixTenantAndManagementGroup}', 64)
+  modPolicyAssignmentLzsDenyPublicEndpoints: take('${varDeploymentNameWrappers.basePrefix}-polAssi-denyPublicEndpoints-internal-${varDeploymentNameWrappers.baseSuffixTenantAndManagementGroup}', 64)
+  modPolicyAssignmentLzsDeployPrivateDnsZones: take('${varDeploymentNameWrappers.basePrefix}-polAssi-deployPrivateDNS-internal-${varDeploymentNameWrappers.baseSuffixTenantAndManagementGroup}', 64)
+  modPolicyAssignmentLzsDenyDataBPip: take('${varDeploymentNameWrappers.basePrefix}-polAssi-denyDataBPip-internal-${varDeploymentNameWrappers.baseSuffixTenantAndManagementGroup}', 64)
+  modPolicyAssignmentLzsDenyDataBSku: take('${varDeploymentNameWrappers.basePrefix}-polAssi-denyDataBSku-internal-${varDeploymentNameWrappers.baseSuffixTenantAndManagementGroup}', 64)
+  modPolicyAssignmentLzsDenyDataBVnet: take('${varDeploymentNameWrappers.basePrefix}-polAssi-denyDataBVnet-internal-${varDeploymentNameWrappers.baseSuffixTenantAndManagementGroup}', 64)
 }
 
 // Policy Assignments Modules Variables
@@ -226,8 +226,8 @@ var varManagementGroupIds = {
   platformConnectivity: '${parTopLevelManagementGroupPrefix}-platform-connectivity'
   platformIdentity: '${parTopLevelManagementGroupPrefix}-platform-identity'
   landingZones: '${parTopLevelManagementGroupPrefix}-landingzones'
-  landingZonesCorp: '${parTopLevelManagementGroupPrefix}-landingzones-corp'
-  landingZonesOnline: '${parTopLevelManagementGroupPrefix}-landingzones-online'
+  landingZonesinternal: '${parTopLevelManagementGroupPrefix}-landingzones-internal'
+  landingZonesnative: '${parTopLevelManagementGroupPrefix}-landingzones-native'
   decommissioned: '${parTopLevelManagementGroupPrefix}-decommissioned'
   sandbox: '${parTopLevelManagementGroupPrefix}-sandbox'
 }
@@ -812,10 +812,10 @@ module modPolicyAssignmentLzsDeploySqlThreat '../../../policy/assignments/policy
   }
 }
 
-// Modules - Policy Assignments - Corp Management Group
+// Modules - Policy Assignments - internal Management Group
 // Module - Policy Assignment - Deny-Public-Endpoints
 module modPolicyAssignmentLzsDenyPublicEndpoints '../../../policy/assignments/policyAssignmentManagementGroup.bicep' = {
-  scope: managementGroup(varManagementGroupIds.landingZonesCorp)
+  scope: managementGroup(varManagementGroupIds.landingZonesinternal)
   name: varModuleDeploymentNames.modPolicyAssignmentLzsDenyPublicEndpoints
   params: {
     parPolicyAssignmentDefinitionId: varPolicyAssignmentDenyPublicEndpoints.definitionId
@@ -831,7 +831,7 @@ module modPolicyAssignmentLzsDenyPublicEndpoints '../../../policy/assignments/po
 
 // Module - Policy Assignment - Deny-DataB-Pip
 module modPolicyAssignmentLzsDenyDataBPip '../../../policy/assignments/policyAssignmentManagementGroup.bicep' = {
-  scope: managementGroup(varManagementGroupIds.landingZonesCorp)
+  scope: managementGroup(varManagementGroupIds.landingZonesinternal)
   name: varModuleDeploymentNames.modPolicyAssignmentLzsDenyDataBPip
   params: {
     parPolicyAssignmentDefinitionId: varPolicyAssignmentDenyDataBPip.definitionId
@@ -847,7 +847,7 @@ module modPolicyAssignmentLzsDenyDataBPip '../../../policy/assignments/policyAss
 
 // Module - Policy Assignment - Deny-DataB-Sku
 module modPolicyAssignmentLzsDenyDataBSku '../../../policy/assignments/policyAssignmentManagementGroup.bicep' = {
-  scope: managementGroup(varManagementGroupIds.landingZonesCorp)
+  scope: managementGroup(varManagementGroupIds.landingZonesinternal)
   name: varModuleDeploymentNames.modPolicyAssignmentLzsDenyDataBSku
   params: {
     parPolicyAssignmentDefinitionId: varPolicyAssignmentDenyDataBSku.definitionId
@@ -863,7 +863,7 @@ module modPolicyAssignmentLzsDenyDataBSku '../../../policy/assignments/policyAss
 
 // Module - Policy Assignment - Deny-DataB-Vnet
 module modPolicyAssignmentLzsDenyDataBVnet '../../../policy/assignments/policyAssignmentManagementGroup.bicep' = {
-  scope: managementGroup(varManagementGroupIds.landingZonesCorp)
+  scope: managementGroup(varManagementGroupIds.landingZonesinternal)
   name: varModuleDeploymentNames.modPolicyAssignmentLzsDenyDataBVnet
   params: {
     parPolicyAssignmentDefinitionId: varPolicyAssignmentDenyDataBVnet.definitionId
@@ -879,7 +879,7 @@ module modPolicyAssignmentLzsDenyDataBVnet '../../../policy/assignments/policyAs
 
 // Module - Policy Assignment - Deploy-Private-DNS-Zones
 module modPolicyAssignmentConnDeployPrivateDnsZones '../../../policy/assignments/policyAssignmentManagementGroup.bicep' = if (!empty(varPrivateDnsZonesResourceGroupSubscriptionId)) {
-  scope: managementGroup(varManagementGroupIds.landingZonesCorp)
+  scope: managementGroup(varManagementGroupIds.landingZonesinternal)
   name: varModuleDeploymentNames.modPolicyAssignmentLzsDeployPrivateDnsZones
   params: {
     parPolicyAssignmentDefinitionId: varPolicyAssignmentDeployPrivateDNSZones.definitionId

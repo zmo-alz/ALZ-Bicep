@@ -26,17 +26,17 @@ param parPlatformIdentityMgSubs array = []
 @sys.description('An array of Subscription IDs to place in the Landing Zones Management Group. Default: Empty Array')
 param parLandingZonesMgSubs array = []
 
-@sys.description('An array of Subscription IDs to place in the Corp (Landing Zones) Management Group. Default: Empty Array')
-param parLandingZonesCorpMgSubs array = []
+@sys.description('An array of Subscription IDs to place in the internal (Landing Zones) Management Group. Default: Empty Array')
+param parLandingZonesinternalMgSubs array = []
 
-@sys.description('An array of Subscription IDs to place in the Online (Landing Zones) Management Group. Default: Empty Array')
-param parLandingZonesOnlineMgSubs array = []
+@sys.description('An array of Subscription IDs to place in the native (Landing Zones) Management Group. Default: Empty Array')
+param parLandingZonesnativeMgSubs array = []
 
-@sys.description('An array of Subscription IDs to place in the Confidential Corp (Landing Zones) Management Group. Default: Empty Array')
-param parLandingZonesConfidentialCorpMgSubs array = []
+@sys.description('An array of Subscription IDs to place in the Confidential internal (Landing Zones) Management Group. Default: Empty Array')
+param parLandingZonesConfidentialinternalMgSubs array = []
 
-@sys.description('An array of Subscription IDs to place in the Confidential Online (Landing Zones) Management Group. Default: Empty Array')
-param parLandingZonesConfidentialOnlineMgSubs array = []
+@sys.description('An array of Subscription IDs to place in the Confidential native (Landing Zones) Management Group. Default: Empty Array')
+param parLandingZonesConfidentialnativeMgSubs array = []
 
 @sys.description('Dictionary Object to allow additional or different child Management Groups of the Landing Zones Management Group describing the Subscription IDs which each of them contain. Default: Empty Object')
 param parLandingZoneMgChildrenSubs object = {}
@@ -57,10 +57,10 @@ var varMgIds = {
   platformConnectivity: '${parTopLevelManagementGroupPrefix}-platform-connectivity'
   platformIdentity: '${parTopLevelManagementGroupPrefix}-platform-identity'
   landingZones: '${parTopLevelManagementGroupPrefix}-landingzones'
-  landingZonesCorp: '${parTopLevelManagementGroupPrefix}-landingzones-corp'
-  landingZonesOnline: '${parTopLevelManagementGroupPrefix}-landingzones-online'
-  landingZonesConfidentialCorp: '${parTopLevelManagementGroupPrefix}-landingzones-confidential-corp'
-  landingZonesConfidentialOnline: '${parTopLevelManagementGroupPrefix}-landingzones-confidential-online'
+  landingZonesinternal: '${parTopLevelManagementGroupPrefix}-landingzones-internal'
+  landingZonesnative: '${parTopLevelManagementGroupPrefix}-landingzones-native'
+  landingZonesConfidentialinternal: '${parTopLevelManagementGroupPrefix}-landingzones-confidential-internal'
+  landingZonesConfidentialnative: '${parTopLevelManagementGroupPrefix}-landingzones-confidential-native'
   decommissioned: '${parTopLevelManagementGroupPrefix}-decommissioned'
   sandbox: '${parTopLevelManagementGroupPrefix}-sandbox'
 }
@@ -72,10 +72,10 @@ var varDeploymentNames = {
   modPlatformConnectivityMgSubPlacement: take('modPlatformConnectivityMgSubPlacement-${uniqueString(varMgIds.platformConnectivity, string(length(parPlatformConnectivityMgSubs)), deployment().name)}', 64)
   modPlatformIdentityMgSubPlacement: take('modPlatformIdentityMgSubPlacement-${uniqueString(varMgIds.platformIdentity, string(length(parPlatformIdentityMgSubs)), deployment().name)}', 64)
   modLandingZonesMgSubPlacement: take('modLandingZonesMgSubPlacement-${uniqueString(varMgIds.landingZones, string(length(parLandingZonesMgSubs)), deployment().name)}', 64)
-  modLandingZonesCorpMgSubPlacement: take('modLandingZonesCorpMgSubPlacement-${uniqueString(varMgIds.landingZonesCorp, string(length(parLandingZonesCorpMgSubs)), deployment().name)}', 64)
-  modLandingZonesOnlineMgSubPlacement: take('modLandingZonesOnlineMgSubPlacement-${uniqueString(varMgIds.landingZonesOnline, string(length(parLandingZonesOnlineMgSubs)), deployment().name)}', 64)
-  modLandingZonesConfidentialCorpMgSubPlacement: take('modLandingZonesConfidentialCorpMgSubPlacement-${uniqueString(varMgIds.landingZonesConfidentialCorp, string(length(parLandingZonesConfidentialCorpMgSubs)), deployment().name)}', 64)
-  modLandingZonesConfidentialOnlineMgSubPlacement: take('modLandingZonesConfidentialOnlineMgSubPlacement-${uniqueString(varMgIds.landingZonesConfidentialOnline, string(length(parLandingZonesConfidentialOnlineMgSubs)), deployment().name)}', 64)
+  modLandingZonesinternalMgSubPlacement: take('modLandingZonesinternalMgSubPlacement-${uniqueString(varMgIds.landingZonesinternal, string(length(parLandingZonesinternalMgSubs)), deployment().name)}', 64)
+  modLandingZonesnativeMgSubPlacement: take('modLandingZonesnativeMgSubPlacement-${uniqueString(varMgIds.landingZonesnative, string(length(parLandingZonesnativeMgSubs)), deployment().name)}', 64)
+  modLandingZonesConfidentialinternalMgSubPlacement: take('modLandingZonesConfidentialinternalMgSubPlacement-${uniqueString(varMgIds.landingZonesConfidentialinternal, string(length(parLandingZonesConfidentialinternalMgSubs)), deployment().name)}', 64)
+  modLandingZonesConfidentialnativeMgSubPlacement: take('modLandingZonesConfidentialnativeMgSubPlacement-${uniqueString(varMgIds.landingZonesConfidentialnative, string(length(parLandingZonesConfidentialnativeMgSubs)), deployment().name)}', 64)
   modDecommissionedMgSubPlacement: take('modDecommissionedMgSubPlacement-${uniqueString(varMgIds.decommissioned, string(length(parDecommissionedMgSubs)), deployment().name)}', 64)
   modSandboxMgSubPlacement: take('modSandboxMgSubPlacement-${uniqueString(varMgIds.sandbox, string(length(parSandboxMgSubs)), deployment().name)}', 64)
 }
@@ -139,40 +139,40 @@ module modLandingZonesMgSubPlacement '../../modules/subscriptionPlacement/subscr
   }
 }
 
-module modLandingZonesCorpMgSubPlacement '../../modules/subscriptionPlacement/subscriptionPlacement.bicep' = if (!empty(parLandingZonesCorpMgSubs)) {
-  name: varDeploymentNames.modLandingZonesCorpMgSubPlacement
-  scope: managementGroup(varMgIds.landingZonesCorp)
+module modLandingZonesinternalMgSubPlacement '../../modules/subscriptionPlacement/subscriptionPlacement.bicep' = if (!empty(parLandingZonesinternalMgSubs)) {
+  name: varDeploymentNames.modLandingZonesinternalMgSubPlacement
+  scope: managementGroup(varMgIds.landingZonesinternal)
   params: {
-    parTargetManagementGroupId: varMgIds.landingZonesCorp
-    parSubscriptionIds: parLandingZonesCorpMgSubs
+    parTargetManagementGroupId: varMgIds.landingZonesinternal
+    parSubscriptionIds: parLandingZonesinternalMgSubs
   }
 }
 
-module modLandingZonesOnlineMgSubPlacement '../../modules/subscriptionPlacement/subscriptionPlacement.bicep' = if (!empty(parLandingZonesOnlineMgSubs)) {
-  name: varDeploymentNames.modLandingZonesOnlineMgSubPlacement
-  scope: managementGroup(varMgIds.landingZonesOnline)
+module modLandingZonesnativeMgSubPlacement '../../modules/subscriptionPlacement/subscriptionPlacement.bicep' = if (!empty(parLandingZonesnativeMgSubs)) {
+  name: varDeploymentNames.modLandingZonesnativeMgSubPlacement
+  scope: managementGroup(varMgIds.landingZonesnative)
   params: {
-    parTargetManagementGroupId: varMgIds.landingZonesOnline
-    parSubscriptionIds: parLandingZonesOnlineMgSubs
+    parTargetManagementGroupId: varMgIds.landingZonesnative
+    parSubscriptionIds: parLandingZonesnativeMgSubs
   }
 }
 
 // Confidential Landing Zone Management Groups
-module modLandingZonesConfidentialCorpMgSubPlacement '../../modules/subscriptionPlacement/subscriptionPlacement.bicep' = if (!empty(parLandingZonesConfidentialCorpMgSubs)) {
-  name: varDeploymentNames.modLandingZonesConfidentialCorpMgSubPlacement
-  scope: managementGroup(varMgIds.landingZonesConfidentialCorp)
+module modLandingZonesConfidentialinternalMgSubPlacement '../../modules/subscriptionPlacement/subscriptionPlacement.bicep' = if (!empty(parLandingZonesConfidentialinternalMgSubs)) {
+  name: varDeploymentNames.modLandingZonesConfidentialinternalMgSubPlacement
+  scope: managementGroup(varMgIds.landingZonesConfidentialinternal)
   params: {
-    parTargetManagementGroupId: varMgIds.landingZonesConfidentialCorp
-    parSubscriptionIds: parLandingZonesConfidentialCorpMgSubs
+    parTargetManagementGroupId: varMgIds.landingZonesConfidentialinternal
+    parSubscriptionIds: parLandingZonesConfidentialinternalMgSubs
   }
 }
 
-module modLandingZonesConfidentialOnlineMgSubPlacement '../../modules/subscriptionPlacement/subscriptionPlacement.bicep' = if (!empty(parLandingZonesConfidentialOnlineMgSubs)) {
-  name: varDeploymentNames.modLandingZonesConfidentialOnlineMgSubPlacement
-  scope: managementGroup(varMgIds.landingZonesConfidentialOnline)
+module modLandingZonesConfidentialnativeMgSubPlacement '../../modules/subscriptionPlacement/subscriptionPlacement.bicep' = if (!empty(parLandingZonesConfidentialnativeMgSubs)) {
+  name: varDeploymentNames.modLandingZonesConfidentialnativeMgSubPlacement
+  scope: managementGroup(varMgIds.landingZonesConfidentialnative)
   params: {
-    parTargetManagementGroupId: varMgIds.landingZonesConfidentialOnline
-    parSubscriptionIds: parLandingZonesConfidentialOnlineMgSubs
+    parTargetManagementGroupId: varMgIds.landingZonesConfidentialnative
+    parSubscriptionIds: parLandingZonesConfidentialnativeMgSubs
   }
 }
 

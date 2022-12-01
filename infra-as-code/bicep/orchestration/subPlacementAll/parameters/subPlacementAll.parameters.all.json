@@ -23,16 +23,16 @@
     "parLandingZonesMgSubs": {
       "value": []
     },
-    "parLandingZonesCorpMgSubs": {
+    "parLandingZonesinternalMgSubs": {
       "value": []
     },
-    "parLandingZonesOnlineMgSubs": {
+    "parLandingZonesnativeMgSubs": {
       "value": []
     },
-    "parLandingZonesConfidentialCorpMgSubs": {
+    "parLandingZonesConfidentialinternalMgSubs": {
       "value": []
     },
-    "parLandingZonesConfidentialOnlineMgSubs": {
+    "parLandingZonesConfidentialnativeMgSubs": {
       "value": []
     },
     "parLandingZoneMgChildrenSubs": {
