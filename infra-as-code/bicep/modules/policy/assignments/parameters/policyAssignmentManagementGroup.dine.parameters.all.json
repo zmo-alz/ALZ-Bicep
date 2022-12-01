@@ -70,7 +70,7 @@
             "value": []
         },
         "parPolicyAssignmentEnforcementMode": {
-            "value": "Default"
+            "value": "Default" 
         },
         "parPolicyAssignmentIdentityType": {
             "value": "SystemAssigned"
