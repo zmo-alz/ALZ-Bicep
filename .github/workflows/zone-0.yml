@@ -1,4 +1,4 @@
-name: ALZ GitHub Actions deployment pipeline
+name: ALZ Zone-0 pipeline
 
 on:
   push:
