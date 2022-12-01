@@ -7,7 +7,7 @@ This policy assignment will assign the ALZ Default Policy to management groups
 Parameter name | Required | Description
 -------------- | -------- | -----------
 parTopLevelManagementGroupPrefix | No       | Prefix for the management group hierarchy. DEFAULT VALUE = alz
-parLogAnalyticsWorkSpaceAndAutomationAccountLocation | No       | The region where the Log Analytics Workspace & Automation Account are deployed. DEFAULT VALUE = eastus
+parLogAnalyticsWorkSpaceAndAutomationAccountLocation | No       | The region where the Log Analytics Workspace & Automation Account are deployed. DEFAULT VALUE = norwayeast
 parLogAnalyticsWorkspaceResourceId | No       | Log Analytics Workspace Resource ID. - DEFAULT VALUE: Empty String 
 parLogAnalyticsWorkspaceLogRetentionInDays | No       | Number of days of log retention for Log Analytics Workspace. - DEFAULT VALUE: 365
 parAutomationAccountName | No       | Automation account name. - DEFAULT VALUE: alz-automation-account
@@ -28,9 +28,9 @@ Prefix for the management group hierarchy. DEFAULT VALUE = alz
 
 ![Parameter Setting](https://img.shields.io/badge/parameter-optional-green?style=flat-square)
 
-The region where the Log Analytics Workspace & Automation Account are deployed. DEFAULT VALUE = eastus
+The region where the Log Analytics Workspace & Automation Account are deployed. DEFAULT VALUE = norwayeast
 
-- Default value: `eastus`
+- Default value: `norwayeast`
 
 ### parLogAnalyticsWorkspaceResourceId
 
@@ -98,7 +98,7 @@ Set Parameter to true to Opt-out of deployment telemetry
             "value": "alz"
         },
         "parLogAnalyticsWorkSpaceAndAutomationAccountLocation": {
-            "value": "eastus"
+            "value": "norwayeast"
         },
         "parLogAnalyticsWorkspaceResourceId": {
             "value": ""

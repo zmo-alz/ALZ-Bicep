@@ -6,8 +6,8 @@ metadata description = 'This policy assignment will assign the ALZ Default Polic
 @maxLength(10)
 param parTopLevelManagementGroupPrefix string = 'alz'
 
-@sys.description('The region where the Log Analytics Workspace & Automation Account are deployed. DEFAULT VALUE = eastus')
-param parLogAnalyticsWorkSpaceAndAutomationAccountLocation string = 'eastus'
+@sys.description('The region where the Log Analytics Workspace & Automation Account are deployed. DEFAULT VALUE = norwayeast')
+param parLogAnalyticsWorkSpaceAndAutomationAccountLocation string = 'norwayeast'
 
 @sys.description('Log Analytics Workspace Resource ID. - DEFAULT VALUE: Empty String ')
 param parLogAnalyticsWorkspaceResourceId string = ''
