@@ -1,9 +1,6 @@
 name: ALZ GitHub Actions deployment pipeline
 
 on:
-  pull_request:
-    branches:
-    - zmo-alz
   push:
     branches:
     - zmo-alz
@@ -24,18 +21,18 @@ env:
   runNumber: ${{ github.run_number }}
 
 jobs:
-  analyze_arm:
-    name: Analyze templates
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+  # analyze_arm:
+  #   name: Analyze templates
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Checkout
+  #     uses: actions/checkout@v3
 
-    # Analyze Azure resources using PSRule for Azure
-    - name: Analyze Azure template files
-      uses: microsoft/ps-rule@v2.5.2
-      with:
-        modules: 'PSRule.Rules.Azure'
+  #   # Analyze Azure resources using PSRule for Azure
+  #   - name: Analyze Azure template files
+  #     uses: microsoft/ps-rule@v2.5.2
+  #     with:
+  #       modules: 'PSRule.Rules.Azure'
   bicep_tenant_deploy:
     runs-on: ubuntu-latest
     steps:
