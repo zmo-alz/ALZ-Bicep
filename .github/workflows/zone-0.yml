@@ -56,17 +56,17 @@ jobs:
           deploymentName: create_policy_defs-${{ env.runNumber }}
           failOnStdErr: false
         
-      - name: Deploy Custom Role Definitions
-        id: create_rbac_roles
-        uses: azure/arm-deploy@v1
-        with:
-          scope: managementgroup
-          managementGroupId: ${{ env.ManagementGroupPrefix }}
-          region: ${{ env.Location }}
-          template: infra-as-code/bicep/modules/customRoleDefinitions/customRoleDefinitions.bicep
-          parameters: infra-as-code/bicep/modules/customRoleDefinitions/parameters/customRoleDefinitions.parameters.all.json
-          deploymentName: create_rbac_roles-${{ env.runNumber }}
-          failOnStdErr: false
+      # - name: Deploy Custom Role Definitions
+      #   id: create_rbac_roles
+      #   uses: azure/arm-deploy@v1
+      #   with:
+      #     scope: managementgroup
+      #     managementGroupId: ${{ env.ManagementGroupPrefix }}
+      #     region: ${{ env.Location }}
+      #     template: infra-as-code/bicep/modules/customRoleDefinitions/customRoleDefinitions.bicep
+      #     parameters: infra-as-code/bicep/modules/customRoleDefinitions/parameters/customRoleDefinitions.parameters.all.json
+      #     deploymentName: create_rbac_roles-${{ env.runNumber }}
+      #     failOnStdErr: false
 
       - name: Deploy Role Assignment
         id: create_role_assignment
