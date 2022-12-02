@@ -67,6 +67,9 @@ param parTags object = {}
 @sys.description('Tags you would like to be applied to Automation Account. Default: parTags')
 param parAutomationAccountTags object = parTags
 
+@sys.description('Resource is already created. Default: false')
+param parAutomationAcctExist bool = true
+
 @sys.description('Tags you would like to be applied to Log Analytics Workspace. Default: parTags')
 param parLogAnalyticsWorkspaceTags object = parTags
 
@@ -76,7 +79,7 @@ param parTelemetryOptOut bool = true
 // Customer Usage Attribution Id
 var varCuaid = 'f8087c67-cc41-46b2-994d-66e4b661860d'
 
-resource resAutomationAccount 'Microsoft.Automation/automationAccounts@2021-06-22' = {
+resource resAutomationAccount 'Microsoft.Automation/automationAccounts@2021-06-22' = if (!parAutomationAcctExist) {
   name: parAutomationAccountName
   location: parAutomationAccountLocation
   tags: parAutomationAccountTags
