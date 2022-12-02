@@ -68,7 +68,7 @@ param parTags object = {}
 param parAutomationAccountTags object = parTags
 
 @sys.description('Resource is already created. Default: false')
-param parAutomationAcctExist bool = true
+param parAutomationAcctExist bool = false
 
 @sys.description('Tags you would like to be applied to Log Analytics Workspace. Default: parTags')
 param parLogAnalyticsWorkspaceTags object = parTags

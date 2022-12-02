@@ -188,7 +188,7 @@ param parPrivateDnsZones array = [
   'privatelink.web.core.windows.net'
   'privatelink.webpubsub.azure.com'
 ]
-
+ 
 //ASN must be 65515 if deploying VPN & ER for co-existence to work: https://docs.microsoft.com/en-us/azure/expressroute/expressroute-howto-coexist-resource-manager#limits-and-limitations
 @sys.description('''Configuration for VPN virtual network gateway to be deployed. If a VPN virtual network gateway is not desired an empty object should be used as the input parameter in the parameter file, i.e.
 "parVpnGatewayConfig": {
