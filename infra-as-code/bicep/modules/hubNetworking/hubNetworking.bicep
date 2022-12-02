@@ -51,6 +51,12 @@ param parAzBastionSku string = 'Standard'
 @sys.description('NSG Name for Azure Bastion Subnet NSG. Default: nsg-AzureBastionSubnet')
 param parAzBastionNsgName string = 'nsg-AzureBastionSubnet'
 
+@sys.description('Switch to enable/disable VPN Gateway deployment. Default: false')
+param parVpnGatewayEnabled bool = true
+
+@sys.description('Switch to enable/disable ExpressRoute Gateway deployment. Default: false')
+param parExpressRouteGatewayEnabled bool = true
+
 @sys.description('Switch to enable/disable DDoS Network Protection deployment. Default: true')
 param parDdosEnabled bool = false
 
@@ -66,12 +72,13 @@ param parAzFirewallName string = '${parCompanyPrefix}-azfw-${parLocation}'
 @sys.description('Azure Firewall Policies Name. Default: {parCompanyPrefix}-fwpol-{parLocation}')
 param parAzFirewallPoliciesName string = '${parCompanyPrefix}-azfwpolicy-${parLocation}'
 
-@sys.description('Azure Firewall Tier associated with the Firewall to deploy. Default: Standard')
+@sys.description('Azure Firewall Tier associated with the Firewall to deploy. Default: Basic')
 @allowed([
+  'Basic'
   'Standard'
   'Premium'
 ])
-param parAzFirewallTier string = 'Standard'
+param parAzFirewallTier string = 'Basic'
 
 @allowed([
   '1'
@@ -469,12 +476,12 @@ resource resGatewaySubnetRef 'Microsoft.Network/virtualNetworks/subnets@2021-08-
   name: 'GatewaySubnet'
 }
 
-module modGatewayPublicIp '../publicIp/publicIp.bicep' = [for (gateway, i) in varGwConfig: if ((gateway.name != 'noconfigVpn') && (gateway.name != 'noconfigEr')) {
-  name: 'deploy-Gateway-Public-IP-${i}'
+module modAzVpnGatewayPublicIp '../publicIp/publicIp.bicep' = if (parVpnGatewayEnabled) {
+  name: 'deploy-Gateway-Public-IP-noconfigVpn'
   params: {
     parLocation: parLocation
-    parAvailabilityZones: gateway.gatewayType == 'ExpressRoute' ? parAzErGatewayAvailabilityZones : gateway.gatewayType == 'Vpn' ? parAzVpnGatewayAvailabilityZones : []
-    parPublicIpName: '${gateway.name}-PublicIp'
+    parAvailabilityZones: parAzVpnGatewayAvailabilityZones
+    parPublicIpName: 'noconfigVpn-PublicIp'
     parPublicIpProperties: {
       publicIpAddressVersion: 'IPv4'
       publicIpAllocationMethod: 'Static'
@@ -485,7 +492,25 @@ module modGatewayPublicIp '../publicIp/publicIp.bicep' = [for (gateway, i) in va
     parTags: parTags
     parTelemetryOptOut: parTelemetryOptOut
   }
-}]
+}
+
+module modAzErGatewayPublicIp '../publicIp/publicIp.bicep' = if (parExpressRouteGatewayEnabled) {
+  name: 'deploy-Gateway-Public-IP-noconfigEr'
+  params: {
+    parLocation: parLocation
+    parAvailabilityZones: parAzErGatewayAvailabilityZones
+    parPublicIpName: 'noconfigEr-PublicIp'
+    parPublicIpProperties: {
+      publicIpAddressVersion: 'IPv4'
+      publicIpAllocationMethod: 'Static'
+    }
+    parPublicIpSku: {
+      name: parPublicIpSku
+    }
+    parTags: parTags
+    parTelemetryOptOut: parTelemetryOptOut
+  }
+}
 
 //Minumum subnet size is /27 supporting documentation https://docs.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpn-gateway-settings#gwsub
 resource resGateway 'Microsoft.Network/virtualNetworkGateways@2021-02-01' = [for (gateway, i) in varGwConfig: if ((gateway.name != 'noconfigVpn') && (gateway.name != 'noconfigEr')) {

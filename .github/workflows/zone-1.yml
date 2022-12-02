@@ -22,6 +22,7 @@ env:
   PrivateSpokeNetworkResourceGroupName: "Private_LZ1_Networking"
   PublicSpokeNetworkSubId: "1e63056d-66f8-4d36-8454-b4375eb8578f"
   PublicSpokeNetworkResourceGroupName: "Public_LZ1_Networking"
+  DDoSProtectionEnabled: "false"
   runNumber: ${{ github.run_number }}
 
 jobs:
@@ -80,6 +81,6 @@ jobs:
           subscriptionId: ${{ env.HubNetworkSubId }}
           resourceGroupName: ${{ env.HubNetworkResourceGroupName }}
           template: infra-as-code/bicep/modules/hubNetworking/hubNetworking.bicep
-          parameters: infra-as-code/bicep/modules/hubNetworking/parameters/hubNetworking.parameters.all.json
+          parameters: infra-as-code/bicep/modules/hubNetworking/parameters/hubNetworking.parameters.all.json parDdosEnabled =${{ env.DDoSProtectionEnabled}}
           deploymentName: create_hub_network-${{ env.runNumber }}
           failOnStdErr: false

@@ -39,6 +39,12 @@
     "parAzBastionEnabled": {
       "value": false
     },
+    "parVpnGatewayEnabled": {
+      "value": false
+    },
+    "parExpressRouteGatewayEnabled": {
+      "value": false
+    },
     "parAzBastionName": {
       "value": "alz-bastion"
     },
@@ -64,7 +70,7 @@
       "value": "alz-azfwpolicy-norwayeast"
     },
     "parAzFirewallTier": {
-      "value": "Standard"
+      "value": "Basic"
     },
     "parAzFirewallAvailabilityZones": {
       "value": []
@@ -85,7 +91,7 @@
       "value": false
     },
     "parPrivateDnsZonesEnabled": {
-      "value": true
+      "value": false
     },
     "parPrivateDnsZones": {
       "value": [
