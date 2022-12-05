@@ -552,6 +552,24 @@ module modAzureFirewallPublicIp '../publicIp/publicIp.bicep' = if (parAzFirewall
   }
 }
 
+module modAzureFirewallPublicIp2 '../publicIp/publicIp.bicep' = if (parAzFirewallEnabled) {
+  name: 'deploy-Firewall-Public-IP2'
+  params: {
+    parLocation: parLocation
+    parAvailabilityZones: parAzFirewallAvailabilityZones
+    parPublicIpName: '${parAzFirewallName}-PublicIp2'
+    parPublicIpProperties: {
+      publicIpAddressVersion: 'IPv4'
+      publicIpAllocationMethod: 'Static'
+    }
+    parPublicIpSku: {
+      name: parPublicIpSku
+    }
+    parTags: parTags
+    parTelemetryOptOut: parTelemetryOptOut
+  }
+}
+
 resource resFirewallPolicies 'Microsoft.Network/firewallPolicies@2021-08-01' = if (parAzFirewallEnabled) {
   name: parAzFirewallPoliciesName
   location: parLocation
@@ -579,6 +597,9 @@ resource resAzureFirewall 'Microsoft.Network/azureFirewalls@2021-08-01' = if (pa
           subnet: {
             id: resAzureFirewallSubnetRef.id
           }
+          publicIPAddress: {
+            id: parAzFirewallEnabled ? modAzureFirewallPublicIp.outputs.outPublicIpId : ''
+          }
         }
       }
     ]
@@ -593,7 +614,7 @@ resource resAzureFirewall 'Microsoft.Network/azureFirewalls@2021-08-01' = if (pa
           id: resAzureFirewallManagementSubnetRef.id
         }
         publicIPAddress: {
-          id: parAzFirewallEnabled ? modAzureFirewallPublicIp.outputs.outPublicIpId : ''
+          id: parAzFirewallEnabled ? modAzureFirewallPublicIp2.outputs.outPublicIpId : ''
         }
       }
     }
