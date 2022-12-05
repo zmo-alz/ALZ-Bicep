@@ -64,9 +64,6 @@ param parDdosPlanName string = '${parCompanyPrefix}-ddos-plan'
 @sys.description('Switch to enable/disable Azure Firewall deployment. Default: true')
 param parAzFirewallEnabled bool = true
 
-@sys.description('Azure Firewall Management Subnet Name. Default: AzureFirewallManagementSubnet')
-param AzureFirewallManagementSubnet string = 'AzureFirewallManagementSubnet'
-
 @sys.description('Azure Firewall Name. Default: {parCompanyPrefix}-azure-firewall')
 param parAzFirewallName string = '${parCompanyPrefix}-azfw-${parLocation}'
 
@@ -588,7 +585,7 @@ resource resAzureFirewall 'Microsoft.Network/azureFirewalls@2021-08-01' = if (pa
     sku: {
       name: 'AZFW_Hub'
       tier: parAzFirewallTier
-    },
+    }
     managementIpConfiguration: {
       name: 'ManagementPublicIpAddressName'
       properties: {
