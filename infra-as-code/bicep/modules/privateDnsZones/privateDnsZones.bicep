@@ -96,7 +96,7 @@ var varAzBackupGeoCodes = {
   centralus: 'cus'
   eastasia: 'ea'
   eastus2euap: 'ecy'
-  norwayeast: 'eus'
+  eastus: 'eus'
   eastus2: 'eus2'
   francecentral: 'frc'
   francesouth: 'frs'

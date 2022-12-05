@@ -5,7 +5,7 @@ metadata description = 'ALZ Bicep Module used to set up Hub Networking'
 param parLocation string = resourceGroup().location
 
 @sys.description('Prefix value which will be prepended to all resource names. Default: alz')
-param parCompanyPrefix string = 'alz'
+param parCompanyPrefix string = 'zmoalz'
 
 @sys.description('Prefix Used for Hub Network. Default: {parCompanyPrefix}-hub-{parLocation}')
 param parHubNetworkName string = '${parCompanyPrefix}-hub-${parLocation}'
@@ -40,7 +40,7 @@ param parDnsServerIps array = []
 param parPublicIpSku string = 'Standard'
 
 @sys.description('Switch to enable/disable Azure Bastion deployment. Default: true')
-param parAzBastionEnabled bool = false
+param parAzBastionEnabled bool = true
 
 @sys.description('Name Associated with Bastion Service:  Default: {parCompanyPrefix}-bastion')
 param parAzBastionName string = '${parCompanyPrefix}-bastion'
@@ -52,7 +52,7 @@ param parAzBastionSku string = 'Standard'
 param parAzBastionNsgName string = 'nsg-AzureBastionSubnet'
 
 @sys.description('Switch to enable/disable DDoS Network Protection deployment. Default: true')
-param parDdosEnabled bool = false
+param parDdosEnabled bool = true
 
 @sys.description('DDoS Plan Name. Default: {parCompanyPrefix}-ddos-plan')
 param parDdosPlanName string = '${parCompanyPrefix}-ddos-plan'
@@ -234,7 +234,7 @@ param parExpressRouteGatewayConfig object = {
 param parTags object = {}
 
 @sys.description('Set Parameter to true to Opt-out of deployment telemetry. Default: false')
-param parTelemetryOptOut bool = true
+param parTelemetryOptOut bool = false
 
 var varSubnetProperties = [for subnet in parSubnets: {
   name: subnet.name
@@ -470,7 +470,7 @@ resource resGatewaySubnetRef 'Microsoft.Network/virtualNetworks/subnets@2021-08-
   name: 'GatewaySubnet'
 }
 
-module modGatewayPublicIp '../publicIp/publicIp.bicep' = [for (gateway, i) in varGwConfig: if ((gateway.name != 'noconfigVpn') && (gateway.name != 'noconfigEr') ) {
+module modGatewayPublicIp '../publicIp/publicIp.bicep' = [for (gateway, i) in varGwConfig: if ((gateway.name != 'noconfigVpn') && (gateway.name != 'noconfigEr')) {
   name: 'deploy-Gateway-Public-IP-${i}'
   params: {
     parLocation: parLocation
@@ -487,7 +487,6 @@ module modGatewayPublicIp '../publicIp/publicIp.bicep' = [for (gateway, i) in va
     parTelemetryOptOut: parTelemetryOptOut
   }
 }]
-
 
 //Minumum subnet size is /27 supporting documentation https://docs.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpn-gateway-settings#gwsub
 resource resGateway 'Microsoft.Network/virtualNetworkGateways@2021-02-01' = [for (gateway, i) in varGwConfig: if ((gateway.name != 'noconfigVpn') && (gateway.name != 'noconfigEr')) {
