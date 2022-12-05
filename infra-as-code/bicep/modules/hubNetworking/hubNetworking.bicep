@@ -98,9 +98,6 @@ param parAzErGatewayAvailabilityZones array = []
 @sys.description('Availability Zones to deploy the VPN/ER PIP across. Region must support Availability Zones to use. If it does not then leave empty. Ensure that you select a zonal SKU for the ER/VPN Gateway if using Availability Zones for the PIP. Default: Empty Array')
 param parAzVpnGatewayAvailabilityZones array = []
 
-@sys.description('Switch to enable/disable Azure Firewall DNS Proxy. Default: true')
-param parAzFirewallDnsProxyEnabled bool = true
-
 @sys.description('Name of Route table to create for the default route of Hub. Default: {parCompanyPrefix}-hub-routetable')
 param parHubRouteTableName string = '${parCompanyPrefix}-hub-routetable'
 
@@ -551,9 +548,6 @@ resource resFirewallPolicies 'Microsoft.Network/firewallPolicies@2021-08-01' = i
   location: parLocation
   tags: parTags
   properties: {
-    dnsSettings: {
-      enableProxy: parAzFirewallDnsProxyEnabled
-    }
     sku: {
       tier: parAzFirewallTier
     }
@@ -582,7 +576,7 @@ resource resAzureFirewall 'Microsoft.Network/azureFirewalls@2021-08-01' = if (pa
       }
     ]
     sku: {
-      name: 'AZFW_VNet'
+      name: 'AZFW_Hub'
       tier: parAzFirewallTier
     }
     firewallPolicy: {
