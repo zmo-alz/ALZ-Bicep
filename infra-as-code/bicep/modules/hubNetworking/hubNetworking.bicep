@@ -28,7 +28,7 @@ param parSubnets array = [
     ipAddressRange: '10.20.254.0/24'
   }
   {
-    name: 'AzureFirewallMgmtSubnet'
+    name: 'AzureFirewallManagementSubnet'
     ipAddressRange: '10.20.255.0/24'
   }
 ]
@@ -532,9 +532,9 @@ resource resAzureFirewallSubnetRef 'Microsoft.Network/virtualNetworks/subnets@20
   name: 'AzureFirewallSubnet'
 }
 
-resource resAzureFirewallMgmtSubnetRef 'Microsoft.Network/virtualNetworks/subnets@2021-08-01' existing = {
+resource resAzureFirewallManagementSubnetRef 'Microsoft.Network/virtualNetworks/subnets@2021-08-01' existing = {
   parent: resHubVnet
-  name: 'AzureFirewallMgmtSubnet'
+  name: 'AzureFirewallManagementSubnet'
 }
 
 module modAzureFirewallPublicIp '../publicIp/publicIp.bicep' = if (parAzFirewallEnabled) {
@@ -593,7 +593,7 @@ resource resAzureFirewall 'Microsoft.Network/azureFirewalls@2021-08-01' = if (pa
       name: 'ManagementPublicIpAddressName'
       properties: {
         subnet: {
-          id: resAzureFirewallMgmtSubnetRef.id
+          id: resAzureFirewallManagementSubnetRef.id
         }
         publicIPAddress: {
           id: parAzFirewallEnabled ? modAzureFirewallPublicIp.outputs.outPublicIpId : ''
