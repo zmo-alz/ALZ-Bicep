@@ -1,5 +1,5 @@
 metadata name = 'ALZ Bicep - Hub Networking Module'
-metadata description = 'ALZ Bicep Module used to set up Hub Networking'
+metadata description = 'ALZ Bicep Module used to set up Hub  Networking'
 
 @sys.description('The Azure Region to deploy the resources into. Default: resourceGroup().location')
 param parLocation string = resourceGroup().location
