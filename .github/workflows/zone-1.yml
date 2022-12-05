@@ -5,24 +5,24 @@ on:
     branches:
       - "alz-slim"
     paths:
-      - 'infra-as-code/bicep/modules/resourceGroup/**'
-      - 'infra-as-code/bicep/modules/logging/**'
-      - 'infra-as-code/bicep/modules/hubNetworking/**'
+      - 'infra-as-code/bicep/modules/managementGroups/**'
+      - 'infra-as-code/bicep/modules/policy/**'
+      - 'infra-as-code/bicep/modules/customRoleDefinitions/**'
+      - 'infra-as-code/bicep/modules/subscriptionPlacement/**'
 
 env:
   ManagementGroupPrefix: "zmoalz"
   TopLevelManagementGroupDisplayName: "Azure Landing Zones"
   Location: "norwayeast"
   LoggingSubId: "44273f48-4fd6-4144-b278-d19d201ad922"
-  LoggingResourceGroupName: "alz-centrallogging"
+  LoggingResourceGroupName: "zmoalz-centrallogging"
   HubNetworkSubId: "0f18a4f9-2e78-43d0-b06a-6a490469a7a6"
   HubNetworkResourceGroupName: "Hub_Networking"
-  RoleAssignmentManagementGroupId: "alz-platform"
+  RoleAssignmentManagementGroupId: "zmoalz-platform"
   PrivateSpokeNetworkSubId: "6a4b4279-20aa-4245-8b88-64f9f491b9b2"
   PrivateSpokeNetworkResourceGroupName: "Private_LZ1_Networking"
   PublicSpokeNetworkSubId: "1e63056d-66f8-4d36-8454-b4375eb8578f"
   PublicSpokeNetworkResourceGroupName: "Public_LZ1_Networking"
-  DDoSProtectionEnabled: "false"
   runNumber: ${{ github.run_number }}
 
 jobs:
@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -39,48 +39,26 @@ jobs:
         with:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
 
-      - name: Deploy Logging Resource Group
-        id: create_logging_rg
+      - name: Deploy Role Assignment
+        id: create_role_assignment
         uses: azure/arm-deploy@v1
         with:
-          scope: subscription
-          subscriptionId: ${{ env.LoggingSubId }}
+          scope: managementgroup
+          managementGroupId: ${{ env.RoleAssignmentManagementGroupId }}
           region: ${{ env.Location }}
-          template: infra-as-code/bicep/modules/resourceGroup/resourceGroup.bicep
-          parameters: parResourceGroupName=${{ env.LoggingResourceGroupName }} parLocation=${{ env.Location }}
-          deploymentName: create_logging_rg-${{ env.runNumber }}
+          template: infra-as-code/bicep/modules/roleAssignments/roleAssignmentManagementGroup.bicep
+          parameters: infra-as-code/bicep/modules/roleAssignments/parameters/roleAssignmentManagementGroup.servicePrincipal.parameters.all.json
+          deploymentName: create_role_assignment-${{ env.runNumber }}
           failOnStdErr: false
 
-      - name: Deploy Logging
-        id: create_logging
+      - name: Deploy Default Policy Assignments
+        id: create_policy_assignments
         uses: azure/arm-deploy@v1
         with:
-          subscriptionId: ${{ env.LoggingSubId }}
-          resourceGroupName: ${{ env.LoggingResourceGroupName }}
-          template: infra-as-code/bicep/modules/logging/logging.bicep
-          parameters: infra-as-code/bicep/modules/logging/parameters/logging.parameters.all.json
-          deploymentName: create_logging-${{ env.runNumber }}
-          failOnStdErr: false
-
-      - name: Deploy Hub Networking Resource Group
-        id: create_hub_network_rg
-        uses: azure/arm-deploy@v1
-        with:
-          scope: subscription
-          subscriptionId: ${{ env.HubNetworkSubId }}
+          scope: managementgroup
+          managementGroupId: ${{ env.ManagementGroupPrefix }}
           region: ${{ env.Location }}
-          template: infra-as-code/bicep/modules/resourceGroup/resourceGroup.bicep
-          parameters: parResourceGroupName=${{ env.HubNetworkResourceGroupName }} parLocation=${{ env.Location }}
-          deploymentName: create_hub_network_rg-${{ env.runNumber }}
-          failOnStdErr: false
-
-      - name: Deploy Hub Network
-        id: create_hub_network
-        uses: azure/arm-deploy@v1
-        with:
-          subscriptionId: ${{ env.HubNetworkSubId }}
-          resourceGroupName: ${{ env.HubNetworkResourceGroupName }}
-          template: infra-as-code/bicep/modules/hubNetworking/hubNetworking.bicep
-          parameters: infra-as-code/bicep/modules/hubNetworking/parameters/hubNetworking.parameters.all.json parDdosEnabled =${{ env.DDoSProtectionEnabled}}
-          deploymentName: create_hub_network-${{ env.runNumber }}
+          template: infra-as-code/bicep/modules/policy/assignments/alzDefaults/alzDefaultPolicyAssignments.bicep
+          parameters: infra-as-code/bicep/modules/policy/assignments/alzDefaults/parameters/alzDefaultPolicyAssignments.parameters.all.json
+          deploymentName: create_policy_assignments-${{ env.runNumber }}
           failOnStdErr: false

@@ -1,4 +1,4 @@
-name: ALZ Zone-2 pipeline
+name: ALZ Zone-1 pipeline
 
 on:
   push:
@@ -6,7 +6,8 @@ on:
       - "alz-slim"
     paths:
       - 'infra-as-code/bicep/modules/resourceGroup/**'
-      - 'infra-as-code/bicep/modules/spokeNetworking/**'
+      - 'infra-as-code/bicep/modules/logging/**'
+      - 'infra-as-code/bicep/modules/hubNetworking/**'
 
 env:
   ManagementGroupPrefix: "zmoalz"
@@ -21,6 +22,7 @@ env:
   PrivateSpokeNetworkResourceGroupName: "Private_LZ1_Networking"
   PublicSpokeNetworkSubId: "1e63056d-66f8-4d36-8454-b4375eb8578f"
   PublicSpokeNetworkResourceGroupName: "Public_LZ1_Networking"
+  DDoSProtectionEnabled: "false"
   runNumber: ${{ github.run_number }}
 
 jobs:
@@ -28,57 +30,52 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
       - name: Azure Login
         uses: azure/login@v1
         with:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
-
-      - name: Deploy Private Spoke Networking Resource Group
-        id: create_private_spoke_network_rg
+      - name: Deploy Logging Resource Group
+        id: create_logging_rg
         uses: azure/arm-deploy@v1
         with:
           scope: subscription
-          subscriptionId: ${{ env.PrivateSpokeNetworkSubId }}
+          subscriptionId: ${{ env.LoggingSubId }}
           region: ${{ env.Location }}
           template: infra-as-code/bicep/modules/resourceGroup/resourceGroup.bicep
-          parameters: parResourceGroupName=${{ env.PrivateSpokeNetworkResourceGroupName }} parLocation=${{ env.Location }}
-          deploymentName: create_spoke_network_rg-${{ env.runNumber }}
+          parameters: parResourceGroupName=${{ env.LoggingResourceGroupName }} parLocation=${{ env.Location }}
+          deploymentName: create_logging_rg-${{ env.runNumber }}
           failOnStdErr: false
-
-      - name: Deploy Private Spoke Network
-        id: create_private_spoke_network
+      - name: Deploy Logging
+        id: create_logging
         uses: azure/arm-deploy@v1
         with:
-          subscriptionId: ${{ env.PrivateSpokeNetworkSubId }}
-          resourceGroupName: ${{ env.PrivateSpokeNetworkResourceGroupName }}
-          template: infra-as-code/bicep/modules/spokeNetworking/spokeNetworking.bicep
-          parameters: infra-as-code/bicep/modules/spokeNetworking/parameters/spokeNetworking.parameters.all.json
-          deploymentName: create_spoke_network-${{ env.runNumber }}
+          subscriptionId: ${{ env.LoggingSubId }}
+          resourceGroupName: ${{ env.LoggingResourceGroupName }}
+          template: infra-as-code/bicep/modules/logging/logging.bicep
+          parameters: infra-as-code/bicep/modules/logging/parameters/logging.parameters.all.json
+          deploymentName: create_logging-${{ env.runNumber }}
           failOnStdErr: false
-
-      - name: Deploy Public Spoke Networking Resource Group
-        id: create_public_spoke_network_rg
+      - name: Deploy Hub Networking Resource Group
+        id: create_hub_network_rg
         uses: azure/arm-deploy@v1
         with:
           scope: subscription
-          subscriptionId: ${{ env.PublicSpokeNetworkSubId }}
+          subscriptionId: ${{ env.HubNetworkSubId }}
           region: ${{ env.Location }}
           template: infra-as-code/bicep/modules/resourceGroup/resourceGroup.bicep
-          parameters: parResourceGroupName=${{ env.PublicSpokeNetworkResourceGroupName }} parLocation=${{ env.Location }}
-          deploymentName: create_spoke_network_rg-${{ env.runNumber }}
+          parameters: parResourceGroupName=${{ env.HubNetworkResourceGroupName }} parLocation=${{ env.Location }}
+          deploymentName: create_hub_network_rg-${{ env.runNumber }}
           failOnStdErr: false
-
-      - name: Deploy Public Spoke Network
-        id: create_public_spoke_network
+      - name: Deploy Hub Network
+        id: create_hub_network
         uses: azure/arm-deploy@v1
         with:
-          subscriptionId: ${{ env.PublicSpokeNetworkSubId }}
-          resourceGroupName: ${{ env.PublicSpokeNetworkResourceGroupName }}
-          template: infra-as-code/bicep/modules/spokeNetworking/spokeNetworking.bicep
-          parameters: infra-as-code/bicep/modules/spokeNetworking/parameters/spokeNetworking.parameters.all.json
-          deploymentName: create_spoke_network-${{ env.runNumber }}
+          subscriptionId: ${{ env.HubNetworkSubId }}
+          resourceGroupName: ${{ env.HubNetworkResourceGroupName }}
+          template: infra-as-code/bicep/modules/hubNetworking/hubNetworking.bicep
+          parameters: infra-as-code/bicep/modules/hubNetworking/parameters/hubNetworking.parameters.all.json parDdosEnabled =${{ env.DDoSProtectionEnabled}}
+          deploymentName: create_hub_network-${{ env.runNumber }}
           failOnStdErr: false

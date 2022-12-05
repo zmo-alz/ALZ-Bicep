@@ -12,22 +12,22 @@
       "value": []
     },
     "parPlatformManagementMgSubs": {
-      "value": []
+      "value": ["44273f48-4fd6-4144-b278-d19d201ad922"]
     },
     "parPlatformConnectivityMgSubs": {
-      "value": []
+      "value": ["0f18a4f9-2e78-43d0-b06a-6a490469a7a6"]
     },
     "parPlatformIdentityMgSubs": {
-      "value": []
+      "value": ["198eb60c-3c17-4b26-9f9e-d5622763bec5"]
     },
     "parLandingZonesMgSubs": {
       "value": []
     },
     "parLandingZonesinternalMgSubs": {
-      "value": []
+      "value": ["6a4b4279-20aa-4245-8b88-64f9f491b9b2"]
     },
     "parLandingZonesnativeMgSubs": {
-      "value": []
+      "value": ["1e63056d-66f8-4d36-8454-b4375eb8578f"]
     },
     "parLandingZonesConfidentialinternalMgSubs": {
       "value": []
@@ -42,7 +42,7 @@
       "value": []
     },
     "parSandboxMgSubs": {
-      "value": []
+      "value": ["a7693725-2adf-4eff-98eb-fc941246426d"]
     },
     "parTelemetryOptOut": {
       "value": true
