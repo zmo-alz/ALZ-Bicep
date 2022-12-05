@@ -51,12 +51,6 @@ param parAzBastionSku string = 'Standard'
 @sys.description('NSG Name for Azure Bastion Subnet NSG. Default: nsg-AzureBastionSubnet')
 param parAzBastionNsgName string = 'nsg-AzureBastionSubnet'
 
-@sys.description('Switch to enable/disable VPN Gateway deployment. Default: false')
-param parVpnGatewayEnabled bool = true
-
-@sys.description('Switch to enable/disable ExpressRoute Gateway deployment. Default: false')
-param parExpressRouteGatewayEnabled bool = true
-
 @sys.description('Switch to enable/disable DDoS Network Protection deployment. Default: true')
 param parDdosEnabled bool = false
 

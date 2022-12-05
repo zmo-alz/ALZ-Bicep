@@ -39,12 +39,6 @@
     "parAzBastionEnabled": {
       "value": false
     },
-    "parVpnGatewayEnabled": {
-      "value": false
-    },
-    "parExpressRouteGatewayEnabled": {
-      "value": false
-    },
     "parAzBastionName": {
       "value": "zmoalz-bastion"
     },
