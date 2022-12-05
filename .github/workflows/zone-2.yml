@@ -1,4 +1,4 @@
-name: ALZ Zone-1 pipeline
+name: ALZ Zone-2 pipeline
 
 on:
   push:
