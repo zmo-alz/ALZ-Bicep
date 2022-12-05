@@ -5,10 +5,8 @@ on:
     branches:
       - "alz-slim"
     paths:
-      - 'infra-as-code/bicep/modules/managementGroups/**'
-      - 'infra-as-code/bicep/modules/policy/**'
-      - 'infra-as-code/bicep/modules/customRoleDefinitions/**'
-      - 'infra-as-code/bicep/modules/subscriptionPlacement/**'
+      - 'infra-as-code/bicep/modules/roleAssignments/**'
+      - 'infra-as-code/bicep/modules/policy/assignments/**'
 
 env:
   ManagementGroupPrefix: "zmoalz"

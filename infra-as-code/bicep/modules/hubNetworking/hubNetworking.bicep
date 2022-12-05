@@ -604,7 +604,7 @@ resource resAzureFirewall 'Microsoft.Network/azureFirewalls@2021-08-01' = if (pa
       }
     ]
     sku: {
-      name: 'AZFW_Hub'
+      name: 'AZFW_VNet'
       tier: parAzFirewallTier
     }
     managementIpConfiguration: {

@@ -8,7 +8,7 @@ on:
       - 'infra-as-code/bicep/modules/managementGroups/**'
       - 'infra-as-code/bicep/modules/policy/**'
       - 'infra-as-code/bicep/modules/customRoleDefinitions/**'
-      - 'infra-as-code/bicep/modules/subscriptionPlacement/**'
+      - 'infra-as-code/bicep/orchestration/subPlacementAll/**'
 
 env:
   ManagementGroupPrefix: "zmoalz"
