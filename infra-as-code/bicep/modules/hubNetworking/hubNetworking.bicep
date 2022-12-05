@@ -10,22 +10,26 @@ param parCompanyPrefix string = 'zmoalz'
 @sys.description('Prefix Used for Hub Network. Default: {parCompanyPrefix}-hub-{parLocation}')
 param parHubNetworkName string = '${parCompanyPrefix}-hub-${parLocation}'
 
-@sys.description('The IP address range for all virtual networks to use. Default: 10.10.0.0/16')
-param parHubNetworkAddressPrefix string = '10.10.0.0/16'
+@sys.description('The IP address range for all virtual networks to use. Default: 10.20.0.0/16')
+param parHubNetworkAddressPrefix string = '10.20.0.0/16'
 
 @sys.description('The name and IP address range for each subnet in the virtual networks. Default: AzureBastionSubnet, GatewaySubnet, AzureFirewallSubnet')
 param parSubnets array = [
   {
     name: 'AzureBastionSubnet'
-    ipAddressRange: '10.10.15.0/24'
+    ipAddressRange: '10.20.0.0/24'
   }
   {
     name: 'GatewaySubnet'
-    ipAddressRange: '10.10.252.0/24'
+    ipAddressRange: '10.20.253.0/24'
   }
   {
     name: 'AzureFirewallSubnet'
-    ipAddressRange: '10.10.254.0/24'
+    ipAddressRange: '10.20.254.0/24'
+  }
+  {
+    name: 'AzureFirewallMgmtSubnet'
+    ipAddressRange: '10.20.255.0/24'
   }
 ]
 
@@ -59,6 +63,9 @@ param parDdosPlanName string = '${parCompanyPrefix}-ddos-plan'
 
 @sys.description('Switch to enable/disable Azure Firewall deployment. Default: true')
 param parAzFirewallEnabled bool = true
+
+@sys.description('Azure Firewall Management Subnet Name. Default: AzureFirewallManagementSubnet')
+param AzureFirewallManagementSubnet string = 'AzureFirewallManagementSubnet'
 
 @sys.description('Azure Firewall Name. Default: {parCompanyPrefix}-azure-firewall')
 param parAzFirewallName string = '${parCompanyPrefix}-azfw-${parLocation}'
@@ -525,6 +532,11 @@ resource resAzureFirewallSubnetRef 'Microsoft.Network/virtualNetworks/subnets@20
   name: 'AzureFirewallSubnet'
 }
 
+resource resAzureFirewallMgmtSubnetRef 'Microsoft.Network/virtualNetworks/subnets@2021-08-01' existing = {
+  parent: resHubVnet
+  name: 'AzureFirewallMgmtSubnet'
+}
+
 module modAzureFirewallPublicIp '../publicIp/publicIp.bicep' = if (parAzFirewallEnabled) {
   name: 'deploy-Firewall-Public-IP'
   params: {
@@ -555,6 +567,7 @@ resource resFirewallPolicies 'Microsoft.Network/firewallPolicies@2021-08-01' = i
 }
 
 // AzureFirewallSubnet is required to deploy Azure Firewall . This subnet must exist in the parsubnets array if you deploy.
+// AzureFirewallManagementSubnet is required to deploy Azure Firewall Basic. This subnet must exist in the parsubnets array if you deploy.
 // There is a minimum subnet requirement of /26 prefix.
 resource resAzureFirewall 'Microsoft.Network/azureFirewalls@2021-08-01' = if (parAzFirewallEnabled) {
   name: parAzFirewallName
@@ -569,15 +582,23 @@ resource resAzureFirewall 'Microsoft.Network/azureFirewalls@2021-08-01' = if (pa
           subnet: {
             id: resAzureFirewallSubnetRef.id
           }
-          publicIPAddress: {
-            id: parAzFirewallEnabled ? modAzureFirewallPublicIp.outputs.outPublicIpId : ''
-          }
         }
       }
     ]
     sku: {
       name: 'AZFW_Hub'
       tier: parAzFirewallTier
+    },
+    managementIpConfiguration: {
+      name: 'ManagementPublicIpAddressName'
+      properties: {
+        subnet: {
+          id: resAzureFirewallMgmtSubnetRef.id
+        }
+        publicIPAddress: {
+          id: parAzFirewallEnabled ? modAzureFirewallPublicIp.outputs.outPublicIpId : ''
+        }
+      }
     }
     firewallPolicy: {
       id: resFirewallPolicies.id

@@ -22,10 +22,14 @@
         },
         {
           "name": "GatewaySubnet",
-          "ipAddressRange": "10.20.254.0/24"
+          "ipAddressRange": "10.20.253.0/24"
         },
         {
           "name": "AzureFirewallSubnet",
+          "ipAddressRange": "10.20.254.0/24"
+        },
+        {
+          "name": "AzureFirewallMgmtSubnet",
           "ipAddressRange": "10.20.255.0/24"
         }
       ]
