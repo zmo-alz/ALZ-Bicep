@@ -188,7 +188,7 @@ param parPrivateDnsZones array = [
   'privatelink.web.core.windows.net'
   'privatelink.webpubsub.azure.com'
 ]
- 
+
 //ASN must be 65515 if deploying VPN & ER for co-existence to work: https://docs.microsoft.com/en-us/azure/expressroute/expressroute-howto-coexist-resource-manager#limits-and-limitations
 @sys.description('''Configuration for VPN virtual network gateway to be deployed. If a VPN virtual network gateway is not desired an empty object should be used as the input parameter in the parameter file, i.e.
 "parVpnGatewayConfig": {
@@ -476,12 +476,12 @@ resource resGatewaySubnetRef 'Microsoft.Network/virtualNetworks/subnets@2021-08-
   name: 'GatewaySubnet'
 }
 
-module modAzVpnGatewayPublicIp '../publicIp/publicIp.bicep' = if (parVpnGatewayEnabled) {
-  name: 'deploy-Gateway-Public-IP-noconfigVpn'
+module modGatewayPublicIp '../publicIp/publicIp.bicep' = [for (gateway, i) in varGwConfig: if ((gateway.name != 'noconfigVpn') && (gateway.name != 'noconfigEr') ) {
+  name: 'deploy-Gateway-Public-IP-${i}'
   params: {
     parLocation: parLocation
-    parAvailabilityZones: parAzVpnGatewayAvailabilityZones
-    parPublicIpName: 'noconfigVpn-PublicIp'
+    parAvailabilityZones: gateway.gatewayType == 'ExpressRoute' ? parAzErGatewayAvailabilityZones : gateway.gatewayType == 'Vpn' ? parAzVpnGatewayAvailabilityZones : []
+    parPublicIpName: '${gateway.name}-PublicIp'
     parPublicIpProperties: {
       publicIpAddressVersion: 'IPv4'
       publicIpAllocationMethod: 'Static'
@@ -492,25 +492,8 @@ module modAzVpnGatewayPublicIp '../publicIp/publicIp.bicep' = if (parVpnGatewayE
     parTags: parTags
     parTelemetryOptOut: parTelemetryOptOut
   }
-}
+}]
 
-module modAzErGatewayPublicIp '../publicIp/publicIp.bicep' = if (parExpressRouteGatewayEnabled) {
-  name: 'deploy-Gateway-Public-IP-noconfigEr'
-  params: {
-    parLocation: parLocation
-    parAvailabilityZones: parAzErGatewayAvailabilityZones
-    parPublicIpName: 'noconfigEr-PublicIp'
-    parPublicIpProperties: {
-      publicIpAddressVersion: 'IPv4'
-      publicIpAllocationMethod: 'Static'
-    }
-    parPublicIpSku: {
-      name: parPublicIpSku
-    }
-    parTags: parTags
-    parTelemetryOptOut: parTelemetryOptOut
-  }
-}
 
 //Minumum subnet size is /27 supporting documentation https://docs.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpn-gateway-settings#gwsub
 resource resGateway 'Microsoft.Network/virtualNetworkGateways@2021-02-01' = [for (gateway, i) in varGwConfig: if ((gateway.name != 'noconfigVpn') && (gateway.name != 'noconfigEr')) {

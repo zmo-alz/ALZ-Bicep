@@ -13,10 +13,10 @@ parPolicyAssignmentDefinitionId | Yes      | The policy definition ID for the po
 parPolicyAssignmentParameters | No       | An object containing the parameter values for the policy to be assigned. DEFAULT VALUE = {}
 parPolicyAssignmentParameterOverrides | No       | An object containing parameter values that override those provided to parPolicyAssignmentParameters, usually via a JSON file and loadJsonContent(FILE_PATH). This is only useful when wanting to take values from a source like a JSON file for the majority of the parameters but override specific parameter inputs from other sources or hardcoded. If duplicate parameters exist between parPolicyAssignmentParameters & parPolicyAssignmentParameterOverrides, inputs provided to parPolicyAssignmentParameterOverrides will win. DEFAULT VALUE = {}
 parPolicyAssignmentNonComplianceMessages | No       | An array containing object/s for the non-compliance messages for the policy to be assigned. See https://docs.microsoft.com/en-us/azure/governance/policy/concepts/assignment-structure#non-compliance-messages for more details on use. DEFAULT VALUE = []
-parPolicyAssignmentNotScopes | No       | An array containing a list of scope Resource IDs to be excluded for the policy assignment. e.g. ['/providers/Microsoft.Management/managementgroups/alz', '/providers/Microsoft.Management/managementgroups/alz-sandbox' ]. DEFAULT VALUE = []
+parPolicyAssignmentNotScopes | No       | An array containing a list of scope Resource IDs to be excluded for the policy assignment. e.g. ['/providers/Microsoft.Management/managementgroups/alz', '/providers/Microsoft.Management/managementgroups/zmoalz-sandbox' ]. DEFAULT VALUE = []
 parPolicyAssignmentEnforcementMode | No       | The enforcement mode for the policy assignment. See https://aka.ms/EnforcementMode for more details on use. DEAFULT VALUE = "Default"
 parPolicyAssignmentIdentityType | No       | The type of identity to be created and associated with the policy assignment. Only required for Modify and DeployIfNotExists policy effects. DEAFULT VALUE = "None"
-parPolicyAssignmentIdentityRoleAssignmentsAdditionalMgs | No       | An array containing a list of additional Management Group IDs (as the Management Group deployed to is included automatically) that the System-assigned Managed Identity, associated to the policy assignment, will be assigned to additionally. e.g. ['alz', 'alz-sandbox' ]. DEFAULT VALUE = [ <Management Group You Are Deploying To> ]
+parPolicyAssignmentIdentityRoleAssignmentsAdditionalMgs | No       | An array containing a list of additional Management Group IDs (as the Management Group deployed to is included automatically) that the System-assigned Managed Identity, associated to the policy assignment, will be assigned to additionally. e.g. ['alz', 'zmoalz-sandbox' ]. DEFAULT VALUE = [ <Management Group You Are Deploying To> ]
 parPolicyAssignmentIdentityRoleAssignmentsSubs | No       | An array containing a list of Subscription IDs that the System-assigned Managed Identity associated to the policy assignment will be assigned to in addition to the Management Group the policy is deployed/assigned to. e.g. ['8200b669-cbc6-4e6c-b6d8-f4797f924074', '7d58dc5d-93dc-43cd-94fc-57da2e74af0d' ]. DEFAULT VALUE = []
 parPolicyAssignmentIdentityRoleDefinitionIds | No       | An array containing a list of RBAC role definition IDs to be assigned to the Managed Identity that is created and associated with the policy assignment. Only required for Modify and DeployIfNotExists policy effects. e.g. ['/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c']. DEFAULT VALUE = []
 parTelemetryOptOut | No       | Set Parameter to true to Opt-out of deployment telemetry
@@ -67,7 +67,7 @@ An array containing object/s for the non-compliance messages for the policy to b
 
 ![Parameter Setting](https://img.shields.io/badge/parameter-optional-green?style=flat-square)
 
-An array containing a list of scope Resource IDs to be excluded for the policy assignment. e.g. ['/providers/Microsoft.Management/managementgroups/alz', '/providers/Microsoft.Management/managementgroups/alz-sandbox' ]. DEFAULT VALUE = []
+An array containing a list of scope Resource IDs to be excluded for the policy assignment. e.g. ['/providers/Microsoft.Management/managementgroups/alz', '/providers/Microsoft.Management/managementgroups/zmoalz-sandbox' ]. DEFAULT VALUE = []
 
 ### parPolicyAssignmentEnforcementMode
 
@@ -93,7 +93,7 @@ The type of identity to be created and associated with the policy assignment. On
 
 ![Parameter Setting](https://img.shields.io/badge/parameter-optional-green?style=flat-square)
 
-An array containing a list of additional Management Group IDs (as the Management Group deployed to is included automatically) that the System-assigned Managed Identity, associated to the policy assignment, will be assigned to additionally. e.g. ['alz', 'alz-sandbox' ]. DEFAULT VALUE = [ <Management Group You Are Deploying To> ]
+An array containing a list of additional Management Group IDs (as the Management Group deployed to is included automatically) that the System-assigned Managed Identity, associated to the policy assignment, will be assigned to additionally. e.g. ['alz', 'zmoalz-sandbox' ]. DEFAULT VALUE = [ <Management Group You Are Deploying To> ]
 
 ### parPolicyAssignmentIdentityRoleAssignmentsSubs
 

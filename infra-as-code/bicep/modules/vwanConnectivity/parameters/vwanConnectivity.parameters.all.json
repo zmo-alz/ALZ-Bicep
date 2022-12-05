@@ -30,25 +30,25 @@
       "value": true
     },
     "parVirtualWanName": {
-      "value": "alz-vwan-norwayeast"
+      "value": "zmoalz-vwan-norwayeast"
     },
     "parVirtualWanHubName": {
-      "value": "alz-vhub-norwayeast"
+      "value": "zmoalz-vhub-norwayeast"
     },
     "parVpnGatewayName": {
-      "value": "alz-vpngw-norwayeast"
+      "value": "zmoalz-vpngw-norwayeast"
     },
     "parExpressRouteGatewayName": {
-      "value": "alz-ergw-norwayeast"
+      "value": "zmoalz-ergw-norwayeast"
     },
     "parAzFirewallName": {
-      "value": "alz-fw-norwayeast"
+      "value": "zmoalz-fw-norwayeast"
     },
     "parAzFirewallAvailabilityZones": {
       "value": []
     },
     "parAzFirewallPoliciesName": {
-      "value": "alz-azfwpolicy-norwayeast"
+      "value": "zmoalz-azfwpolicy-norwayeast"
     },
     "parVpnGatewayScaleUnit": {
       "value": 1
@@ -60,7 +60,7 @@
       "value": false
     },
     "parDdosPlanName": {
-      "value": "alz-ddos-plan"
+      "value": "zmoalz-ddos-plan"
     },
     "parPrivateDnsZonesEnabled": {
       "value": true
@@ -137,7 +137,7 @@
       ]
     },
     "parVirtualNetworkIdToLink": {
-      "value": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/HUB_Networking_POC/providers/Microsoft.Network/virtualNetworks/alz-hub-norwayeast"
+      "value": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/HUB_Networking_POC/providers/Microsoft.Network/virtualNetworks/zmoalz-hub-norwayeast"
     },
     "parTags": {
       "value": {
@@ -145,7 +145,7 @@
       }
     },
     "parTelemetryOptOut": {
-      "value": false
+      "value": true
     }
   }
 }

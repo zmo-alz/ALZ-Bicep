@@ -1,8 +1,8 @@
 metadata name = 'ALZ Bicep - Logging Module'
 metadata description = 'ALZ Bicep Module used to set up Logging'
 
-@sys.description('Log Analytics Workspace name. Default: alz-log-analytics')
-param parLogAnalyticsWorkspaceName string = 'alz-log-analytics'
+@sys.description('Log Analytics Workspace name. Default: zmoalz-log-analytics')
+param parLogAnalyticsWorkspaceName string = 'zmoalz-log-analytics'
 
 @sys.description('Log Analytics region name - Ensure the regions selected is a supported mapping as per: https://docs.microsoft.com/azure/automation/how-to/region-mappings. Default: resourceGroup().location')
 param parLogAnalyticsWorkspaceLocation string = resourceGroup().location
@@ -55,8 +55,8 @@ param parLogAnalyticsWorkspaceSolutions array = [
   'VMInsights'
 ]
 
-@sys.description('Automation account name. - Default: alz-automation-account')
-param parAutomationAccountName string = 'alz-automation-account'
+@sys.description('Automation account name. - Default: zmoalz-automation-account')
+param parAutomationAccountName string = 'zmoalz-automation-account'
 
 @sys.description('Automation Account region name. - Ensure the regions selected is a supported mapping as per: https://docs.microsoft.com/azure/automation/how-to/region-mappings. Default: resourceGroup().location')
 param parAutomationAccountLocation string = resourceGroup().location

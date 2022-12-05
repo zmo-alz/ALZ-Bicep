@@ -3,13 +3,13 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "parVirtualWanHubResourceId": {
-      "value": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/alz-vwan-norwayeast/providers/Microsoft.Network/virtualHubs/alz-vhub-norwayeast"
+      "value": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/zmoalz-vwan-norwayeast/providers/Microsoft.Network/virtualHubs/zmoalz-vhub-norwayeast"
     },
     "parRemoteVirtualNetworkResourceId": {
       "value": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/spokevnet-rg/providers/Microsoft.Network/virtualNetworks/vnet-spoke"
     },
     "parTelemetryOptOut": {
-      "value": false
+      "value": true
     }
   }
 }

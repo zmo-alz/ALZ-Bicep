@@ -10,7 +10,7 @@ parTopLevelManagementGroupPrefix | No       | Prefix for the management group hi
 parLogAnalyticsWorkSpaceAndAutomationAccountLocation | No       | The region where the Log Analytics Workspace & Automation Account are deployed. DEFAULT VALUE = norwayeast
 parLogAnalyticsWorkspaceResourceId | No       | Log Analytics Workspace Resource ID. - DEFAULT VALUE: Empty String 
 parLogAnalyticsWorkspaceLogRetentionInDays | No       | Number of days of log retention for Log Analytics Workspace. - DEFAULT VALUE: 365
-parAutomationAccountName | No       | Automation account name. - DEFAULT VALUE: alz-automation-account
+parAutomationAccountName | No       | Automation account name. - DEFAULT VALUE: zmoalz-automation-account
 parMsDefenderForCloudEmailSecurityContact | No       | An e-mail address that you want Microsoft Defender for Cloud alerts to be sent to.
 parDdosProtectionPlanId | No       | ID of the DdosProtectionPlan which will be applied to the Virtual Networks. If left empty, the policy Enable-DDoS-VNET will not be assigned at connectivity or landing zone Management Groups to avoid VNET deployment issues. Default: Empty String
 parPrivateDnsResourceGroupId | No       | Resource ID of the Resource Group that conatin the Private DNS Zones. If left empty, the policy Deploy-Private-DNS-Zones will not be assigned to the internal Management Group. Default: Empty String
@@ -50,9 +50,9 @@ Number of days of log retention for Log Analytics Workspace. - DEFAULT VALUE: 36
 
 ![Parameter Setting](https://img.shields.io/badge/parameter-optional-green?style=flat-square)
 
-Automation account name. - DEFAULT VALUE: alz-automation-account
+Automation account name. - DEFAULT VALUE: zmoalz-automation-account
 
-- Default value: `alz-automation-account`
+- Default value: `zmoalz-automation-account`
 
 ### parMsDefenderForCloudEmailSecurityContact
 
@@ -107,7 +107,7 @@ Set Parameter to true to Opt-out of deployment telemetry
             "value": "365"
         },
         "parAutomationAccountName": {
-            "value": "alz-automation-account"
+            "value": "zmoalz-automation-account"
         },
         "parMsDefenderForCloudEmailSecurityContact": {
             "value": "security_contact@replace_me.com"

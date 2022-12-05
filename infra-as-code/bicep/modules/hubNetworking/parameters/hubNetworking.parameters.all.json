@@ -9,7 +9,7 @@
       "value": "alz"
     },
     "parHubNetworkName": {
-      "value": "alz-hub-norwayeast"
+      "value": "zmoalz-hub-norwayeast"
     },
     "parHubNetworkAddressPrefix": {
       "value": "10.20.0.0/16"
@@ -46,7 +46,7 @@
       "value": false
     },
     "parAzBastionName": {
-      "value": "alz-bastion"
+      "value": "zmoalz-bastion"
     },
     "parAzBastionSku": {
       "value": "Standard"
@@ -58,16 +58,16 @@
       "value": false
     },
     "parDdosPlanName": {
-      "value": "alz-ddos-plan"
+      "value": "zmoalz-ddos-plan"
     },
     "parAzFirewallEnabled": {
       "value": true
     },
     "parAzFirewallName": {
-      "value": "alz-azfw-norwayeast"
+      "value": "zmoalz-azfw-norwayeast"
     },
     "parAzFirewallPoliciesName": {
-      "value": "alz-azfwpolicy-norwayeast"
+      "value": "zmoalz-azfwpolicy-norwayeast"
     },
     "parAzFirewallTier": {
       "value": "Basic"
@@ -85,7 +85,7 @@
       "value": true
     },
     "parHubRouteTableName": {
-      "value": "alz-hub-routetable"
+      "value": "zmoalz-hub-routetable"
     },
     "parDisableBgpRoutePropagation": {
       "value": false
@@ -166,41 +166,11 @@
     },
     "parVpnGatewayConfig": {
       "value": {
-        "name": "alz-Vpn-Gateway",
-        "gatewayType": "Vpn",
-        "sku": "VpnGw1",
-        "vpnType": "RouteBased",
-        "generation": "Generation1",
-        "enableBgp": false,
-        "activeActive": false,
-        "enableBgpRouteTranslationForNat": false,
-        "enableDnsForwarding": false,
-        "asn": "65515",
-        "bgpPeeringAddress": "",
-        "bgpsettings": {
-          "asn": "65515",
-          "bgpPeeringAddress": "",
-          "peerWeight": "5"
         }
       }
     },
     "parExpressRouteGatewayConfig": {
       "value": {
-        "name": "alz-ExpressRoute-Gateway",
-        "gatewayType": "ExpressRoute",
-        "sku": "Standard",
-        "vpnType": "RouteBased",
-        "generation": "None",
-        "enableBgp": false,
-        "activeActive": false,
-        "enableBgpRouteTranslationForNat": false,
-        "enableDnsForwarding": false,
-        "asn": "65515",
-        "bgpPeeringAddress": "",
-        "bgpsettings": {
-          "asn": "65515",
-          "bgpPeeringAddress": "",
-          "peerWeight": "5"
         }
       }
     },
@@ -210,7 +180,7 @@
       }
     },
     "parTelemetryOptOut": {
-      "value": false
+      "value": true
     }
   }
 }

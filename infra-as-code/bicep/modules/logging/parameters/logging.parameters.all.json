@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "parLogAnalyticsWorkspaceName": {
-      "value": "alz-log-analytics"
+      "value": "zmoalz-log-analytics"
     },
     "parLogAnalyticsWorkspaceLocation": {
       "value": "norwayeast"
@@ -31,7 +31,7 @@
       ]
     },
     "parAutomationAccountName": {
-      "value": "alz-automation-account"
+      "value": "zmoalz-automation-account"
     },
     "parAutomationAccountLocation": {
       "value": "norwayeast"
@@ -42,7 +42,7 @@
       }
     },
     "parTelemetryOptOut": {
-      "value": false
+      "value": true
     }
   }
 }

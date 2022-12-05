@@ -15,8 +15,8 @@ param parLogAnalyticsWorkspaceResourceId string = ''
 @sys.description('Number of days of log retention for Log Analytics Workspace. - DEFAULT VALUE: 365')
 param parLogAnalyticsWorkspaceLogRetentionInDays string = '365'
 
-@sys.description('Automation account name. - DEFAULT VALUE: alz-automation-account')
-param parAutomationAccountName string = 'alz-automation-account'
+@sys.description('Automation account name. - DEFAULT VALUE: zmoalz-automation-account')
+param parAutomationAccountName string = 'zmoalz-automation-account'
 
 @sys.description('An e-mail address that you want Microsoft Defender for Cloud alerts to be sent to.')
 param parMsDefenderForCloudEmailSecurityContact string = 'security_contact@replace_me.com'

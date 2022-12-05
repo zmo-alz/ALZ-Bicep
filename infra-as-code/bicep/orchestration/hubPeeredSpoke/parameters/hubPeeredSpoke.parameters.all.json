@@ -36,7 +36,7 @@
         "value": "rtb-spoke-to-hub"
       },
       "parHubVirtualNetworkId": {
-        "value": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/alz-westeurope-hub-networking/providers/Microsoft.Network/virtualNetworks/alz-hub-westeurope"
+        "value": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/zmoalz-westeurope-hub-networking/providers/Microsoft.Network/virtualNetworks/zmoalz-hub-westeurope"
       },
       "parAllowSpokeForwardedTraffic": {
         "value": false
