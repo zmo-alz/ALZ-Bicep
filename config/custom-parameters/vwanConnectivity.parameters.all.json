@@ -9,7 +9,7 @@
       "value": "zmo"
     },
     "parAzFirewallTier": {
-      "value": "Standard"
+      "value": "Basic"
     },
     "parAzFirewallIntelMode": {
       "value": "Alert"
@@ -47,9 +47,9 @@
     "parVirtualWanHubs": {
       "value": [
         {
-          "parVpnGatewayEnabled": true,
-          "parExpressRouteGatewayEnabled": true,
-          "parAzFirewallEnabled": true,
+          "parVpnGatewayEnabled": false,
+          "parExpressRouteGatewayEnabled": false,
+          "parAzFirewallEnabled": false,
           "parVirtualHubAddressPrefix": "10.100.0.0/23",
           "parHubLocation": "swedencentral",
           "parHubRoutingPreference": "ExpressRoute",

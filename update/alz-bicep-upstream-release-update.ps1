@@ -1,1 +1,1 @@
-Get-ALZGithubRelease -githubRepoUrl "https://github.com/Azure/ALZ-Bicep" -release "latest" -directoryForReleases "C:\Repos\ALZ\accelerator\upstream-releases\"
+Get-ALZGithubRelease -githubRepoUrl "https://github.com/Azure/ALZ-Bicep" -release "latest" -directoryForReleases "F:\GitHub\ALZ-Bicep\upstream-releases\"
